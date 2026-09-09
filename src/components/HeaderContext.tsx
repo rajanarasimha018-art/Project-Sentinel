@@ -1,17 +1,15 @@
 import React from 'react';
-import { ShieldCheck, RefreshCw, Database } from 'lucide-react';
+import { Shield, Database, HelpCircle } from 'lucide-react';
 
 interface HeaderContextProps {
   activeTab: string;
   onTabSelect: (tab: string) => void;
-  datasetMode: string;
   onToggleDatasetModal: () => void;
 }
 
 export const HeaderContext: React.FC<HeaderContextProps> = ({
   activeTab,
   onTabSelect,
-  datasetMode,
   onToggleDatasetModal
 }) => {
   const navItems = [
@@ -25,32 +23,31 @@ export const HeaderContext: React.FC<HeaderContextProps> = ({
 
   return (
     <header className="site-header">
-      {/* Top operational metadata bar */}
+      {/* Top operational metadata & small data status indicator */}
       <div className="header-topbar">
         <div className="header-topbar-left">
           <span className="topbar-tag">
-            <span className="bullet"></span>
-            PAIMANA Batch Sync: 09-Feb-2026 06:00 IST
+            <span className="bullet" style={{ backgroundColor: '#2563eb' }}></span>
+            SOURCE: <strong>MoSPI PAIMANA Reference Records</strong> (Oct–Dec 2025 Cycle)
           </span>
-          <span>|</span>
-          <span>Reporting Period: FY 2025-26 Q3 Review Cycle</span>
-          <span>|</span>
-          <span>Scope: Central Sector Projects &ge; ₹150 Cr (MoSPI)</span>
+          <span style={{ color: 'var(--border-medium)' }}>|</span>
+          <span>DATA STATE: <strong>10 Loaded Reference Projects</strong></span>
+          <span style={{ color: 'var(--border-medium)' }}>|</span>
+          <span>MODEL STATE: <strong>Validation in Progress</strong></span>
+          <span style={{ color: 'var(--border-medium)' }}>|</span>
+          <span>EXTERNAL FEEDS: <strong>Not Connected</strong></span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <button 
             onClick={onToggleDatasetModal}
             className="demo-layer-pill" 
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}
-            title="Inspect Data Boundary & PAIMANA ETL Schema Reference"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', cursor: 'pointer', background: '#ffffff' }}
+            title="Inspect Data Origins & Schema Specification"
           >
             <Database size={11} />
-            <span>{datasetMode}</span>
+            <span>DATA ORIGIN SPECIFICATION</span>
           </button>
-          <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-            System Integrity: <strong style={{ color: '#16a34a' }}>VERIFIED</strong>
-          </span>
         </div>
       </div>
 
@@ -58,11 +55,11 @@ export const HeaderContext: React.FC<HeaderContextProps> = ({
       <div className="header-main">
         <div className="brand-section">
           <div className="brand-title">
-            <ShieldCheck size={22} className="shield-icon" />
+            <Shield size={20} className="shield-icon" />
             <span>ProjectSentinel</span>
           </div>
           <div className="brand-scope">
-            National Infrastructure Risk & Monitoring Intelligence
+            National Infrastructure Risk &amp; Monitoring Intelligence (SIH26103)
           </div>
         </div>
 
@@ -72,11 +69,11 @@ export const HeaderContext: React.FC<HeaderContextProps> = ({
               key={item.id}
               onClick={() => onTabSelect(item.id)}
               className={`nav-link ${item.id === activeTab ? 'active' : ''} ${!item.active && item.id !== activeTab ? 'disabled' : ''}`}
-              title={item.id !== 'cockpit' ? `${item.label} (Scheduled for Round 2 Next Milestones)` : ''}
+              title={item.id !== 'cockpit' ? `${item.label} (Next Milestones)` : ''}
             >
               {item.label}
               {item.id !== 'cockpit' && (
-                <span style={{ fontSize: '9px', marginLeft: '4px', opacity: 0.6 }}>R2</span>
+                <span style={{ fontSize: '9px', marginLeft: '4px', opacity: 0.5 }}>R2</span>
               )}
             </button>
           ))}

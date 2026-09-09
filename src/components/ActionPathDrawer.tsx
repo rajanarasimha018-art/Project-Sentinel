@@ -4,15 +4,10 @@ import {
   X, 
   AlertOctagon, 
   FileText, 
-  Crosshair, 
-  Users, 
-  CheckSquare, 
-  ArrowRight, 
-  Download,
   Send,
   Building2,
-  ExternalLink,
-  ShieldCheck
+  Download,
+  Info
 } from 'lucide-react';
 
 interface ActionPathDrawerProps {
@@ -26,7 +21,6 @@ export const ActionPathDrawer: React.FC<ActionPathDrawerProps> = ({
   onClose,
   onActionTriggered
 }) => {
-  // Handle ESC key to dismiss drawer
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -59,6 +53,12 @@ export const ActionPathDrawer: React.FC<ActionPathDrawerProps> = ({
               <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>•</span>
               <span className={`risk-badge ${item.riskLevel.toLowerCase()}`}>
                 {(item.riskScore * 100).toFixed(0)}/100 {item.riskLevel}
+              </span>
+              <span 
+                className="demo-layer-pill" 
+                style={{ fontSize: '9px', backgroundColor: '#fff', border: '1px solid var(--border-medium)', color: '#475569' }}
+              >
+                PROTOTYPE SCORING
               </span>
             </div>
             <h2 className="drawer-project-name">{project.name}</h2>
@@ -117,21 +117,21 @@ export const ActionPathDrawer: React.FC<ActionPathDrawerProps> = ({
           {/* STEP 1: Current State & Risk Detected */}
           <div className="path-step">
             <div className="path-step-num">Step 01 • Risk Detected</div>
-            <div className="path-step-title">Risk Severity &amp; Model Confidence Assessment</div>
+            <div className="path-step-title">Risk Severity &amp; Model Output</div>
             <div className="path-step-content">
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
                 <span className={`risk-badge ${item.riskLevel.toLowerCase()}`} style={{ fontSize: '12px', padding: '3px 8px' }}>
-                  Risk Index: {(item.riskScore * 100).toFixed(1)}/100 ({item.riskLevel})
+                  Risk Index: {(item.riskScore * 100).toFixed(0)}/100 ({item.riskLevel})
                 </span>
                 <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-                  Confidence: <strong className="mono-num" style={{ color: '#166534' }}>{item.modelConfidencePct}%</strong>
+                  Model Confidence: <strong className="mono-num" style={{ color: '#166534' }}>{item.modelConfidencePct}%</strong> (Prototype)
                 </span>
               </div>
               <p>
-                <strong>Primary Signal: </strong>{item.primarySignal}
+                <strong>Signal Summary: </strong>{item.primarySignalFull}
               </p>
               <p style={{ marginTop: '4px', color: 'var(--text-muted)' }}>
-                <strong>Recent Delta: </strong>{item.recentChange}
+                <strong>Recent Reporting Change: </strong>{item.recentChangeFull}
               </p>
             </div>
           </div>
@@ -139,10 +139,15 @@ export const ActionPathDrawer: React.FC<ActionPathDrawerProps> = ({
           {/* STEP 2: Why? (Root Risk Factors Breakdown) */}
           <div className="path-step">
             <div className="path-step-num">Step 02 • Why Is It Becoming Risky?</div>
-            <div className="path-step-title">Attributed Ground Risk Factors</div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '4px' }}>
+              <div className="path-step-title">Attributed Ground Risk Factors</div>
+              <span style={{ fontSize: '9px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                [DEMO CASE SCENARIOS]
+              </span>
+            </div>
             <div className="path-step-content">
               {riskFactors.map((factor) => (
-                <div key={factor.id} style={{ marginBottom: '12px', padding: '8px', backgroundColor: '#fafbfc', border: '1px solid var(--border-hairline)', borderRadius: '2px' }}>
+                <div key={factor.id} style={{ marginBottom: '10px', padding: '8px', backgroundColor: '#fafbfc', border: '1px solid var(--border-hairline)', borderRadius: '2px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '12px' }}>
                       {factor.title}
@@ -166,7 +171,7 @@ export const ActionPathDrawer: React.FC<ActionPathDrawerProps> = ({
                     {factor.groundObservation}
                   </div>
                   <div style={{ fontSize: '9px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', marginTop: '2px' }}>
-                    PAIMANA Telemetry Tag: {factor.paimanaFieldRef}
+                    PAIMANA Field Mapping Reference: {factor.paimanaFieldRef}
                   </div>
                 </div>
               ))}
@@ -176,7 +181,12 @@ export const ActionPathDrawer: React.FC<ActionPathDrawerProps> = ({
           {/* STEP 3: What Evidence? */}
           <div className="path-step">
             <div className="path-step-num">Step 03 • What Evidence?</div>
-            <div className="path-step-title">Linked Supporting Submissions &amp; Audits</div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '4px' }}>
+              <div className="path-step-title">Linked Supporting Submissions</div>
+              <span style={{ fontSize: '9px', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                [DEMO EVIDENCE RECORD]
+              </span>
+            </div>
             <div className="path-step-content">
               {evidence.map((ev) => (
                 <div key={ev.id} className="evidence-box">
@@ -187,16 +197,16 @@ export const ActionPathDrawer: React.FC<ActionPathDrawerProps> = ({
                         fontSize: '9px', 
                         padding: '1px 5px', 
                         borderRadius: '2px',
-                        backgroundColor: ev.verificationStatus === 'VERIFIED' ? '#dcfce7' : '#fee2e2',
-                        color: ev.verificationStatus === 'VERIFIED' ? '#166534' : '#991b1b',
-                        fontWeight: 700
+                        backgroundColor: '#f1f5f9',
+                        color: '#475569',
+                        fontWeight: 600
                       }}
                     >
                       {ev.verificationStatus}
                     </span>
                   </div>
                   <div className="evidence-meta">
-                    Authority: {ev.issuingAuthority} • Recorded Date: {ev.date}
+                    Issuing Authority: {ev.issuingAuthority} • Date: {ev.date}
                   </div>
                   <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '4px' }}>
                     {ev.summary}
@@ -209,17 +219,17 @@ export const ActionPathDrawer: React.FC<ActionPathDrawerProps> = ({
           {/* STEP 4: What Should Be Reviewed? */}
           <div className="path-step">
             <div className="path-step-num">Step 04 • What Should Be Reviewed?</div>
-            <div className="path-step-title">Critical Path Bottleneck &amp; Decision Framework</div>
+            <div className="path-step-title">Critical Path Focus &amp; Recommendation</div>
             <div className="path-step-content">
               <div style={{ padding: '10px', backgroundColor: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '2px' }}>
                 <div style={{ fontSize: '11px', color: 'var(--admin-blue-900)', fontWeight: 600 }}>
-                  Immediate Critical Path Focus:
+                  Immediate Critical Path Bottleneck:
                 </div>
                 <div style={{ fontSize: '12px', fontWeight: 700, color: '#1e3a8a', marginTop: '2px' }}>
                   {actionGuidance.criticalPathMilestone}
                 </div>
                 <div style={{ fontSize: '11px', color: '#1e40af', marginTop: '4px' }}>
-                  Estimated Schedule Slippage: <strong className="mono-num">+{actionGuidance.projectedStallDays} days</strong> if unaddressed
+                  Estimated Delay Exposure: <strong className="mono-num">+{actionGuidance.projectedStallDays} days</strong> if unaddressed
                 </div>
               </div>
 
@@ -229,7 +239,7 @@ export const ActionPathDrawer: React.FC<ActionPathDrawerProps> = ({
               </div>
 
               <div style={{ marginTop: '8px', fontSize: '11px', color: 'var(--text-muted)' }}>
-                <strong>Mandatory Statutory Next Step: </strong>
+                <strong>Statutory Procedure: </strong>
                 <span>{actionGuidance.statutoryNextStep}</span>
               </div>
             </div>
@@ -238,7 +248,7 @@ export const ActionPathDrawer: React.FC<ActionPathDrawerProps> = ({
           {/* STEP 5: Who Should Act? */}
           <div className="path-step">
             <div className="path-step-num">Step 05 • Who Should Act?</div>
-            <div className="path-step-title">Designated Competent Authority &amp; Field Officers</div>
+            <div className="path-step-title">Competent Authority &amp; Field Officers</div>
             <div className="path-step-content">
               <div style={{ marginBottom: '6px' }}>
                 <span style={{ fontSize: '10px', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>
@@ -248,13 +258,13 @@ export const ActionPathDrawer: React.FC<ActionPathDrawerProps> = ({
                   {actionGuidance.competentAuthority}
                 </div>
                 <div style={{ fontSize: '10px', color: 'var(--admin-blue-800)', fontWeight: 600, marginTop: '2px' }}>
-                  Level: {actionGuidance.escalationLevel}
+                  Escalation Tier: {actionGuidance.escalationLevel}
                 </div>
               </div>
 
               <div style={{ marginTop: '8px' }}>
                 <span style={{ fontSize: '10px', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>
-                  Mandated Field Officers (SPOCs):
+                  Field Nodal Contacts:
                 </span>
                 <ul style={{ paddingLeft: '16px', marginTop: '4px', fontSize: '11px', color: 'var(--text-secondary)' }}>
                   {actionGuidance.fieldOfficers.map((officer, idx) => (
@@ -277,21 +287,21 @@ export const ActionPathDrawer: React.FC<ActionPathDrawerProps> = ({
             }}
           >
             <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
-              Execute Direct Operational Actions:
+              Simulated Officer Actions (Prototype Workflow):
             </div>
 
             <div style={{ display: 'flex', gap: '8px' }}>
               <button 
-                onClick={() => handleAction('Flag for PRAGATI / Apex Agenda')}
+                onClick={() => handleAction('Flag for Inter-Ministerial Review')}
                 className="btn-operational btn-primary-action"
                 style={{ flex: 1, padding: '8px 12px' }}
               >
                 <AlertOctagon size={13} />
-                <span>Flag for PRAGATI / Apex Agenda</span>
+                <span>Flag for Inter-Ministerial Review</span>
               </button>
 
               <button 
-                onClick={() => handleAction('Issue Formal Clarification Notice')}
+                onClick={() => handleAction('Issue Clarification Notice')}
                 className="btn-operational btn-secondary-action"
                 style={{ flex: 1, padding: '8px 12px' }}
               >
@@ -301,7 +311,7 @@ export const ActionPathDrawer: React.FC<ActionPathDrawerProps> = ({
             </div>
 
             <button 
-              onClick={() => handleAction('Generate Operational Briefing Memo')}
+              onClick={() => handleAction('Generate Review Dossier')}
               className="btn-operational btn-secondary-action"
               style={{ width: '100%', padding: '7px 12px' }}
             >

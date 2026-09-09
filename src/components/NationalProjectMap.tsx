@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AttentionQueueItem } from '../types/sentinel';
-import { MapPin, Navigation, Compass, Layers } from 'lucide-react';
+import { Compass } from 'lucide-react';
 
 interface NationalProjectMapProps {
   items: AttentionQueueItem[];
@@ -16,20 +16,18 @@ export const NationalProjectMap: React.FC<NationalProjectMapProps> = ({
   const [hoveredProject, setHoveredProject] = useState<AttentionQueueItem | null>(null);
   const [activeSectorFilter, setActiveSectorFilter] = useState<string>('ALL');
 
-  // SVG dimensions for India Map projection
-  // Coordinates mapping roughly: Lat (8°N to 37°N) -> Y, Lng (68°E to 97°E) -> X
   const mapWidth = 520;
-  const mapHeight = 440;
+  const mapHeight = 470;
 
+  // Accurate Mercator projection mapping calibrated for India's bounding box [68.0°E to 97.5°E, 8.0°N to 37.5°N]
   const projectToMap = (lat: number, lng: number): [number, number] => {
-    // Mercator approximation tailored for India bounding box [68.0 to 97.0 Lng, 8.0 to 37.0 Lat]
     const minLng = 68.0;
     const maxLng = 97.5;
     const minLat = 8.0;
-    const maxLat = 37.0;
+    const maxLat = 37.5;
 
-    const x = ((lng - minLng) / (maxLng - minLng)) * (mapWidth - 80) + 40;
-    const y = ((maxLat - lat) / (maxLat - minLat)) * (mapHeight - 70) + 30;
+    const x = ((lng - minLng) / (maxLng - minLng)) * (mapWidth - 90) + 45;
+    const y = ((maxLat - lat) / (maxLat - minLat)) * (mapHeight - 80) + 35;
 
     return [x, y];
   };
@@ -57,7 +55,7 @@ export const NationalProjectMap: React.FC<NationalProjectMapProps> = ({
             <span>NATIONAL INFRASTRUCTURE SPATIAL DISPERSION</span>
           </div>
           <div className="panel-subtitle">
-            Geographic concentration of high-priority &amp; escalated infrastructure assets
+            Geographic location of 10 loaded reference projects across major corridors
           </div>
         </div>
 
@@ -80,20 +78,20 @@ export const NationalProjectMap: React.FC<NationalProjectMapProps> = ({
       <div className="panel-body" style={{ position: 'relative', padding: '12px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
           <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-            Projection: Survey of India Engineering Reference Grid (Sub-Regional Corridors)
+            Supporting Context Layer • National Corridor Geometry
           </span>
           <div style={{ display: 'flex', gap: '10px', fontSize: '10px' }}>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
               <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--risk-critical-bar)' }}></span>
-              Critical
+              Critical (2)
             </span>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
               <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--risk-high-bar)' }}></span>
-              High Risk
+              High (4)
             </span>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
               <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--risk-medium-bar)' }}></span>
-              Medium
+              Med/Low (4)
             </span>
           </div>
         </div>
@@ -104,61 +102,91 @@ export const NationalProjectMap: React.FC<NationalProjectMapProps> = ({
             viewBox={`0 0 ${mapWidth} ${mapHeight}`} 
             style={{ width: '100%', height: 'auto', display: 'block' }}
           >
-            {/* Grid coordinates background lines */}
-            <g stroke="#edf2f7" strokeWidth="0.75" strokeDasharray="4,4">
+            {/* Coordinate Grid Guidelines */}
+            <g stroke="#f1f5f9" strokeWidth="1" strokeDasharray="3,3">
               <line x1="40" y1="120" x2="480" y2="120" />
-              <line x1="40" y1="220" x2="480" y2="220" />
-              <line x1="40" y1="320" x2="480" y2="320" />
-              <line x1="140" y1="20" x2="140" y2="420" />
-              <line x1="240" y1="20" x2="240" y2="420" />
-              <line x1="340" y1="20" x2="340" y2="420" />
+              <line x1="40" y1="240" x2="480" y2="240" />
+              <line x1="40" y1="360" x2="480" y2="360" />
+              <line x1="160" y1="20" x2="160" y2="440" />
+              <line x1="280" y1="20" x2="280" y2="440" />
+              <line x1="400" y1="20" x2="400" y2="440" />
             </g>
 
-            {/* Restrained Outline of Indian Subcontinent & Major Corridors */}
+            {/* Recognizable Geographic Outline of India */}
             <path
-              d="M 170 45 L 210 50 L 235 75 L 260 100 L 290 120 L 330 135 L 360 140 L 410 145 L 430 165 L 420 190 L 390 195 L 350 200 L 335 220 L 315 260 L 290 300 L 260 350 L 235 390 L 225 415 L 220 395 L 205 350 L 175 300 L 150 270 L 125 250 L 115 210 L 95 200 L 80 185 L 110 160 L 140 120 L 155 75 Z"
+              d="
+                M 152 40
+                C 160 30, 185 30, 195 48
+                C 205 60, 215 70, 220 88
+                C 225 105, 250 115, 275 125
+                C 295 132, 330 140, 360 142
+                C 385 144, 420 148, 440 160
+                C 455 170, 460 185, 450 195
+                C 435 205, 410 200, 395 210
+                C 375 220, 355 210, 345 225
+                C 335 240, 330 265, 315 285
+                C 300 305, 280 335, 260 365
+                C 245 390, 230 420, 218 440
+                C 210 425, 200 395, 190 365
+                C 175 320, 160 290, 140 270
+                C 125 255, 110 248, 85 245
+                C 65 242, 60 225, 75 215
+                C 90 205, 105 195, 110 180
+                C 115 160, 120 145, 130 120
+                C 138 95, 142 65, 152 40
+                Z
+              "
               fill="#f8fafc"
               stroke="#cbd5e1"
               strokeWidth="1.25"
               strokeLinejoin="round"
             />
 
-            {/* Major Multi-modal Freight & Highway Corridors */}
-            {/* Western DFC line */}
+            {/* Regional State Separation Lines (Restrained Cartographic Reference) */}
+            {/* North-South separation */}
             <path
-              d="M 180 140 L 150 230 L 135 270"
+              d="M 125 255 Q 210 265 315 285"
               fill="none"
-              stroke="#94a3b8"
-              strokeWidth="1.5"
-              strokeDasharray="4,2"
-            >
-              <title>Western Freight Corridor</title>
-            </path>
-            {/* Eastern DFC line */}
-            <path
-              d="M 185 145 L 270 200 L 335 230"
-              fill="none"
-              stroke="#94a3b8"
-              strokeWidth="1.5"
-              strokeDasharray="4,2"
-            >
-              <title>Eastern Freight Corridor</title>
-            </path>
-            {/* Golden Quadrilateral North-South spine */}
-            <path
-              d="M 180 120 L 220 220 L 210 330 L 225 400"
-              fill="none"
-              stroke="#cbd5e1"
+              stroke="#e2e8f0"
               strokeWidth="1"
+              strokeDasharray="2,2"
+            />
+            {/* Eastern Corridor line */}
+            <path
+              d="M 220 88 Q 280 180 345 225"
+              fill="none"
+              stroke="#e2e8f0"
+              strokeWidth="1"
+              strokeDasharray="2,2"
             />
 
-            {/* Regional Labels */}
-            <text x="130" y="80" fontSize="8" fill="#94a3b8" fontFamily="var(--font-mono)">NORTHERN HIMALAYAN</text>
-            <text x="70" y="240" fontSize="8" fill="#94a3b8" fontFamily="var(--font-mono)">WESTERN CORRIDOR</text>
-            <text x="320" y="235" fontSize="8" fill="#94a3b8" fontFamily="var(--font-mono)">EASTERN INDUSTRIAL</text>
-            <text x="210" y="340" fontSize="8" fill="#94a3b8" fontFamily="var(--font-mono)">SOUTHERN PENINSULA</text>
+            {/* Multi-modal Freight & Highway Corridors */}
+            <path
+              d="M 180 135 L 140 250 L 135 275"
+              fill="none"
+              stroke="#94a3b8"
+              strokeWidth="1.5"
+              strokeDasharray="4,2"
+            >
+              <title>Western Dedicated Freight Corridor (WDFC)</title>
+            </path>
+            <path
+              d="M 185 140 L 275 200 L 335 230"
+              fill="none"
+              stroke="#94a3b8"
+              strokeWidth="1.5"
+              strokeDasharray="4,2"
+            >
+              <title>Eastern Dedicated Freight Corridor (EDFC)</title>
+            </path>
 
-            {/* Interactive Project Nodes */}
+            {/* Regional Geographical Labels */}
+            <text x="160" y="65" fontSize="8" fill="#94a3b8" fontFamily="var(--font-mono)">NORTHERN HIMALAYAN</text>
+            <text x="75" y="235" fontSize="8" fill="#94a3b8" fontFamily="var(--font-mono)">WESTERN CORRIDOR</text>
+            <text x="330" y="215" fontSize="8" fill="#94a3b8" fontFamily="var(--font-mono)">EASTERN INDUSTRIAL</text>
+            <text x="215" y="360" fontSize="8" fill="#94a3b8" fontFamily="var(--font-mono)">SOUTHERN PENINSULA</text>
+
+            {/* Interactive Project Pins */}
             {filteredProjects.map((item) => {
               const [cx, cy] = projectToMap(item.project.coordinates[0], item.project.coordinates[1]);
               const isSelected = selectedItem?.project.id === item.project.id;
@@ -173,7 +201,7 @@ export const NationalProjectMap: React.FC<NationalProjectMapProps> = ({
                   onMouseLeave={() => setHoveredProject(null)}
                   style={{ cursor: 'pointer' }}
                 >
-                  {/* Outer pulse circle for Critical alerts */}
+                  {/* Outer pulse for Critical items */}
                   {item.riskLevel === 'CRITICAL' && (
                     <circle
                       cx={cx}
@@ -186,29 +214,29 @@ export const NationalProjectMap: React.FC<NationalProjectMapProps> = ({
                     />
                   )}
 
-                  {/* Highlight ring if selected */}
+                  {/* Selection Ring */}
                   {isSelected && (
                     <circle
                       cx={cx}
                       cy={cy}
-                      r="14"
+                      r="13"
                       fill="none"
                       stroke="var(--admin-blue-800)"
                       strokeWidth="2"
                     />
                   )}
 
-                  {/* Primary Node Pin */}
+                  {/* Node Dot */}
                   <circle
                     cx={cx}
                     cy={cy}
-                    r={isSelected ? 6 : isHovered ? 6 : 4.5}
+                    r={isSelected ? 6 : isHovered ? 5.5 : 4}
                     fill={markerColor}
                     stroke="#ffffff"
                     strokeWidth="1.5"
                   />
 
-                  {/* Short node code tag */}
+                  {/* Project Code Label */}
                   <text
                     x={cx + 7}
                     y={cy + 3}
@@ -224,16 +252,15 @@ export const NationalProjectMap: React.FC<NationalProjectMapProps> = ({
             })}
           </svg>
 
-          {/* Tooltip Card on Hover */}
+          {/* Hover Card */}
           {hoveredProject && (
             <div 
               style={{
                 position: 'absolute',
-                bottom: '12px',
-                left: '12px',
-                right: '12px',
-                backgroundColor: 'rgba(255, 255, 255, 0.96)',
-                backdropFilter: 'blur(2px)',
+                bottom: '10px',
+                left: '10px',
+                right: '10px',
+                backgroundColor: 'rgba(255, 255, 255, 0.98)',
                 border: '1px solid var(--border-medium)',
                 borderRadius: '2px',
                 padding: '8px 12px',
@@ -250,7 +277,7 @@ export const NationalProjectMap: React.FC<NationalProjectMapProps> = ({
                   {hoveredProject.project.name}
                 </div>
                 <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>
-                  {hoveredProject.project.implementingAgency} • {hoveredProject.project.state} • Cost: ₹{hoveredProject.project.sanctionedCostCr.toLocaleString()} Cr
+                  {hoveredProject.project.implementingAgency} • {hoveredProject.project.state} • Sanctioned: ₹{hoveredProject.project.sanctionedCostCr.toLocaleString()} Cr
                 </div>
               </div>
 
@@ -259,7 +286,7 @@ export const NationalProjectMap: React.FC<NationalProjectMapProps> = ({
                   {(hoveredProject.riskScore * 100).toFixed(0)}/100 {hoveredProject.riskLevel}
                 </span>
                 <span style={{ fontSize: '10px', color: 'var(--admin-blue-700)', fontWeight: 600 }}>
-                  Click to inspect &rarr;
+                  Inspect &rarr;
                 </span>
               </div>
             </div>

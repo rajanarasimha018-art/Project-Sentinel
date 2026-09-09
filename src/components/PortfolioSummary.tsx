@@ -6,81 +6,72 @@ interface PortfolioSummaryProps {
 }
 
 export const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({ stats }) => {
-  // Format numbers into Indian Lakh Crores
-  const formatCrores = (valCr: number) => {
-    const lakhCr = (valCr / 100000).toFixed(2);
-    return `₹${lakhCr} L Cr`;
-  };
-
   return (
     <section className="portfolio-strip" aria-label="National Portfolio Key Indicators">
-      {/* 1. Monitored Projects */}
+      {/* 1. Loaded Workspace Records */}
       <div className="portfolio-indicator">
-        <div className="indicator-label">Monitored Portfolio</div>
-        <div className="indicator-value mono-num">{stats.monitoredProjectsCount.toLocaleString()}</div>
+        <div className="indicator-label" title="Representative projects loaded in local engine">
+          <span>Loaded Sample Records</span>
+        </div>
+        <div className="indicator-value mono-num">{stats.loadedProjectsCount}</div>
         <div className="indicator-sub">
-          <span>Sanctioned Outlay:</span>
+          <span>Sanctioned Outlay: </span>
           <strong className="mono-num" style={{ color: 'var(--text-secondary)' }}>
-            {formatCrores(stats.totalSanctionedOutlayCr)}
+            ₹{stats.loadedSanctionedOutlayCr.toLocaleString()} Cr
           </strong>
         </div>
       </div>
 
-      {/* 2. Active Implementation */}
+      {/* 2. Delayed Beyond Original Schedule (Sample Calculation) */}
       <div className="portfolio-indicator">
-        <div className="indicator-label">Active Execution</div>
-        <div className="indicator-value mono-num">{stats.activeProjectsCount.toLocaleString()}</div>
-        <div className="indicator-sub">
-          <span>{((stats.activeProjectsCount / stats.monitoredProjectsCount) * 100).toFixed(1)}% of portfolio</span>
+        <div className="indicator-label" title="Calculated from anticipated completion date > original completion date">
+          <span>Delayed Schedule [Sample Calculation]</span>
         </div>
-      </div>
-
-      {/* 3. Delayed Projects */}
-      <div className="portfolio-indicator">
-        <div className="indicator-label">Delayed Beyond Original</div>
         <div className="indicator-value mono-num" style={{ color: 'var(--risk-high-text)' }}>
-          {stats.delayedBeyondOriginalScheduleCount}
+          {stats.loadedDelayedCount} / {stats.loadedProjectsCount}
         </div>
         <div className="indicator-sub">
-          <span className="mono-num">{stats.delayedRatioPct}% rate</span>
-          <span>•</span>
-          <span>Critical Path Impact</span>
+          <span className="mono-num">{stats.loadedDelayedRatioPct.toFixed(0)}%</span>
+          <span>of loaded sample records</span>
         </div>
       </div>
 
-      {/* 4. At-Risk Projects (Critical + High) */}
+      {/* 3. Prototype Risk Signals */}
       <div className="portfolio-indicator">
-        <div className="indicator-label">Predictive Risk Alert</div>
+        <div className="indicator-label" title="Output of current Prototype Schedule Risk scoring">
+          <span>Prototype Risk Signals</span>
+        </div>
         <div className="indicator-value mono-num" style={{ color: 'var(--risk-critical-text)' }}>
-          {stats.criticalAndHighRiskCount}
+          {stats.loadedAtRiskCount}
         </div>
         <div className="indicator-sub">
-          <span className="escalated">+{stats.escalatedThisCycleCount} escalated</span>
-          <span>/</span>
-          <span className="mitigated">-{stats.mitigatedThisCycleCount} mitigated</span>
+          <span>Generated from sample data • validation pending</span>
         </div>
       </div>
 
-      {/* 5. Cumulative Anticipated Cost Overrun */}
+      {/* 4. Sample Cost Variance (Calculated) */}
       <div className="portfolio-indicator">
-        <div className="indicator-label">Anticipated Cost Overrun</div>
+        <div className="indicator-label" title="Sum of Anticipated Cost minus Sanctioned Cost across loaded sample">
+          <span>Sample Cost Variance [Calculated]</span>
+        </div>
         <div className="indicator-value mono-num" style={{ color: 'var(--risk-critical-text)' }}>
-          {formatCrores(stats.anticipatedCostOverrunCr)}
+          +₹{stats.loadedCostVarianceCr.toLocaleString()} Cr
         </div>
         <div className="indicator-sub">
-          <span className="mono-num">+{stats.costOverrunPct}% escalation</span>
-          <span>above original</span>
+          <span>Calculated from loaded sample records • not a model forecast</span>
         </div>
       </div>
 
-      {/* 6. Accelerated / Recovery Priority */}
+      {/* 5. Schema-Compatible Sample */}
       <div className="portfolio-indicator">
-        <div className="indicator-label">Critical Path Recovery</div>
+        <div className="indicator-label" title="Schema conformity check across loaded records">
+          <span>Schema-Compatible Sample</span>
+        </div>
         <div className="indicator-value mono-num" style={{ color: 'var(--risk-low-text)' }}>
-          {stats.acceleratedMilestoneProjectsCount}
+          {stats.schemaCompatibleCount} / {stats.loadedProjectsCount}
         </div>
         <div className="indicator-sub">
-          <span>Tripartite Interventions Active</span>
+          <span>Sample records conform to DPR schema</span>
         </div>
       </div>
     </section>

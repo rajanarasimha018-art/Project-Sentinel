@@ -17,8 +17,8 @@ export const RiskTrendChart: React.FC<RiskTrendChartProps> = ({ trends }) => {
   const innerHeight = height - margin.top - margin.bottom;
 
   // Scales
-  const minRisk = 0.25;
-  const maxRisk = 0.55;
+  const minRisk = 0.35;
+  const maxRisk = 0.85;
 
   const getX = (index: number) => {
     return margin.left + (index / (trends.length - 1)) * innerWidth;
@@ -33,12 +33,7 @@ export const RiskTrendChart: React.FC<RiskTrendChartProps> = ({ trends }) => {
   // Generate SVG path for portfolio risk curve
   const points = trends.map((d, i) => `${getX(i)},${getY(d.portfolioAvgRiskIndex)}`).join(' L ');
   const pathD = `M ${points}`;
-
-  // Area under curve
   const areaD = `M ${getX(0)},${margin.top + innerHeight} L ${points} L ${getX(trends.length - 1)},${margin.top + innerHeight} Z`;
-
-  // Benchmark line
-  const benchmarkY = getY(0.33);
 
   return (
     <div className="operational-panel" style={{ height: '100%' }}>
@@ -49,17 +44,17 @@ export const RiskTrendChart: React.FC<RiskTrendChartProps> = ({ trends }) => {
             <span>PORTFOLIO RISK TRAJECTORY (MULTI-QUARTER)</span>
           </div>
           <div className="panel-subtitle">
-            “Risk is not just a number. Risk is a change over time.”
+            “Risk is not just a number. Risk is a change over time.” — Illustrative Calibration Trajectory
           </div>
         </div>
 
         <div className="panel-actions">
           <span 
             className="demo-layer-pill" 
-            style={{ fontSize: '9px', backgroundColor: '#fff', color: '#475569' }}
-            title="Calibrated sample baseline representing MoSPI quarterly trend patterns"
+            style={{ fontSize: '9px', backgroundColor: '#fff', border: '1px solid var(--border-medium)', color: '#475569' }}
+            title="Prototype time-series visualization; illustrates trajectory modeling without claiming historical training."
           >
-            [SAMPLE MODEL CALIBRATION]
+            PROTOTYPE / SAMPLE CALIBRATION
           </span>
         </div>
       </div>
@@ -67,16 +62,16 @@ export const RiskTrendChart: React.FC<RiskTrendChartProps> = ({ trends }) => {
       <div className="panel-body" style={{ padding: '14px var(--space-lg) 10px var(--space-lg)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '8px' }}>
           <div style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>
-            Aggregate Risk Index &amp; Critical Volume Over 6 Monitoring Cycles
+            Average Risk Trajectory Across 6 Illustrative Cycles
           </div>
           <div style={{ display: 'flex', gap: '14px', fontSize: '10px', color: 'var(--text-muted)' }}>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
               <span style={{ width: '12px', height: '2px', backgroundColor: 'var(--admin-blue-800)', display: 'inline-block' }}></span>
-              Portfolio Risk Index
+              Sample Portfolio Index
             </span>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-              <span style={{ width: '12px', height: '2px', backgroundColor: '#94a3b8', strokeDasharray: '2,2', display: 'inline-block' }}></span>
-              Benchmark Target (0.33)
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--risk-critical-bar)', display: 'inline-block' }}></span>
+              Current Cycle (0.68)
             </span>
           </div>
         </div>
@@ -88,7 +83,7 @@ export const RiskTrendChart: React.FC<RiskTrendChartProps> = ({ trends }) => {
             style={{ width: '100%', height: 'auto', display: 'block', userSelect: 'none' }}
           >
             {/* Grid horizontal lines */}
-            {[0.3, 0.4, 0.5].map((level) => {
+            {[0.4, 0.6, 0.8].map((level) => {
               const y = getY(level);
               return (
                 <g key={level}>
@@ -114,17 +109,6 @@ export const RiskTrendChart: React.FC<RiskTrendChartProps> = ({ trends }) => {
                 </g>
               );
             })}
-
-            {/* Benchmark target line */}
-            <line
-              x1={margin.left}
-              y1={benchmarkY}
-              x2={width - margin.right}
-              y2={benchmarkY}
-              stroke="#94a3b8"
-              strokeWidth="1"
-              strokeDasharray="4,3"
-            />
 
             {/* Shaded Area under Curve */}
             <path
@@ -173,7 +157,7 @@ export const RiskTrendChart: React.FC<RiskTrendChartProps> = ({ trends }) => {
                   <circle
                     cx={cx}
                     cy={cy}
-                    r={isHovered ? 5 : isCurrent ? 4 : 3}
+                    r={isHovered ? 5 : isCurrent ? 4.5 : 3.5}
                     fill={isCurrent ? 'var(--risk-critical-bar)' : 'var(--admin-blue-800)'}
                     stroke="#ffffff"
                     strokeWidth="1.5"
@@ -232,15 +216,14 @@ export const RiskTrendChart: React.FC<RiskTrendChartProps> = ({ trends }) => {
                 <strong>{trends[hoveredIndex].cycle}</strong> ({trends[hoveredIndex].quarterLabel})
               </div>
               <div style={{ display: 'flex', gap: '12px' }}>
-                <span>Risk Index: <strong className="mono-num">{trends[hoveredIndex].portfolioAvgRiskIndex.toFixed(2)}</strong></span>
-                <span>Critical Projects: <strong className="mono-num" style={{ color: 'var(--risk-critical-text)' }}>{trends[hoveredIndex].criticalHighCount}</strong></span>
-                <span>Mitigations: <strong className="mono-num" style={{ color: 'var(--risk-low-text)' }}>{trends[hoveredIndex].resolvedCount}</strong></span>
+                <span>Sample Risk Index: <strong className="mono-num">{trends[hoveredIndex].portfolioAvgRiskIndex.toFixed(2)}</strong></span>
+                <span>Critical/High Count: <strong className="mono-num" style={{ color: 'var(--risk-critical-text)' }}>{trends[hoveredIndex].criticalHighCount}</strong></span>
               </div>
             </>
           ) : (
             <div style={{ color: 'var(--text-muted)', fontSize: '10px', display: 'flex', alignItems: 'center', gap: '4px' }}>
               <Info size={12} />
-              <span>Hover over quarter nodes to inspect historical risk transitions and resolution velocity.</span>
+              <span>Sample trajectory calibration demonstrating time-series monitoring; not production model historical validation.</span>
             </div>
           )}
         </div>

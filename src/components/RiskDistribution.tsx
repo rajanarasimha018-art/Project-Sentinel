@@ -4,14 +4,14 @@ import { PieChart, TrendingUp } from 'lucide-react';
 
 interface RiskDistributionProps {
   distribution: RiskDistributionData;
-  totalProjects: number;
+  loadedCount: number;
 }
 
 export const RiskDistribution: React.FC<RiskDistributionProps> = ({
   distribution,
-  totalProjects
+  loadedCount
 }) => {
-  const { bySeverity, byTrend } = distribution;
+  const { bySeverity, byTrend, sampleBasisText } = distribution;
 
   return (
     <div className="operational-panel" style={{ height: '100%' }}>
@@ -22,18 +22,27 @@ export const RiskDistribution: React.FC<RiskDistributionProps> = ({
             <span>PORTFOLIO RISK DISTRIBUTION</span>
           </div>
           <div className="panel-subtitle">
-            Condition breakdown across {totalProjects.toLocaleString()} central sector projects
+            {sampleBasisText} ({loadedCount} Projects)
           </div>
+        </div>
+
+        <div className="panel-actions">
+          <span 
+            className="demo-layer-pill" 
+            style={{ fontSize: '9px', backgroundColor: '#fff', border: '1px solid var(--border-medium)', color: '#475569' }}
+          >
+            [CALCULATED ANALYTIC]
+          </span>
         </div>
       </div>
 
       <div className="panel-body">
         {/* Risk Severity Distribution Bar */}
         <div style={{ marginBottom: '6px', fontSize: '11px', fontWeight: 600, color: 'var(--text-secondary)' }}>
-          By Severity Classification
+          By Severity Classification (Prototype Scoring)
         </div>
 
-        <div className="dist-stack-bar" title="Portfolio Severity Distribution">
+        <div className="dist-stack-bar" title="Risk Distribution across loaded records">
           <div 
             className="dist-segment" 
             style={{ width: `${bySeverity.critical.pct}%`, backgroundColor: 'var(--risk-critical-bar)' }}
@@ -53,11 +62,6 @@ export const RiskDistribution: React.FC<RiskDistributionProps> = ({
             className="dist-segment" 
             style={{ width: `${bySeverity.low.pct}%`, backgroundColor: 'var(--risk-low-bar)' }}
             title={`Low: ${bySeverity.low.count} (${bySeverity.low.pct}%)`}
-          />
-          <div 
-            className="dist-segment" 
-            style={{ width: `${bySeverity.insufficientData.pct}%`, backgroundColor: 'var(--risk-insufficient-bar)' }}
-            title={`Insufficient Data: ${bySeverity.insufficientData.count} (${bySeverity.insufficientData.pct}%)`}
           />
         </div>
 
@@ -102,23 +106,13 @@ export const RiskDistribution: React.FC<RiskDistributionProps> = ({
               {bySeverity.low.count} ({bySeverity.low.pct}%)
             </strong>
           </div>
-
-          <div className="dist-legend-item" style={{ gridColumn: 'span 2' }}>
-            <span>
-              <span className="dist-color-dot" style={{ backgroundColor: 'var(--risk-insufficient-bar)' }}></span>
-              Insufficient Data (Uncalibrated Baseline)
-            </span>
-            <strong className="mono-num" style={{ color: 'var(--risk-insufficient-text)' }}>
-              {bySeverity.insufficientData.count} ({bySeverity.insufficientData.pct}%)
-            </strong>
-          </div>
         </div>
 
         {/* Risk Trend Dynamics Section */}
-        <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid var(--border-hairline)' }}>
+        <div style={{ marginTop: '18px', paddingTop: '14px', borderTop: '1px solid var(--border-hairline)' }}>
           <div style={{ marginBottom: '8px', fontSize: '11px', fontWeight: 600, color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
             <TrendingUp size={13} style={{ color: 'var(--text-muted)' }} />
-            <span>Directional Risk Dynamics (This Review Cycle)</span>
+            <span>Directional Trajectory (Calculated from Delta Vectors)</span>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
@@ -130,7 +124,7 @@ export const RiskDistribution: React.FC<RiskDistributionProps> = ({
                 {byTrend.increasing.count}
               </div>
               <div style={{ fontSize: '10px', color: '#7f1d1d' }}>
-                {byTrend.increasing.pct}% of total
+                {byTrend.increasing.pct.toFixed(0)}% of sample
               </div>
             </div>
 
@@ -142,7 +136,7 @@ export const RiskDistribution: React.FC<RiskDistributionProps> = ({
                 {byTrend.stable.count}
               </div>
               <div style={{ fontSize: '10px', color: '#64748b' }}>
-                {byTrend.stable.pct}% of total
+                {byTrend.stable.pct.toFixed(0)}% of sample
               </div>
             </div>
 
@@ -154,7 +148,7 @@ export const RiskDistribution: React.FC<RiskDistributionProps> = ({
                 {byTrend.decreasing.count}
               </div>
               <div style={{ fontSize: '10px', color: '#15803d' }}>
-                {byTrend.decreasing.pct}% of total
+                {byTrend.decreasing.pct.toFixed(0)}% of sample
               </div>
             </div>
           </div>

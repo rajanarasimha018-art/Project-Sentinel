@@ -16,7 +16,7 @@ import { NationalProjectMap } from './components/NationalProjectMap';
 import { DataQualityConfidence } from './components/DataQualityConfidence';
 import { ActionPathDrawer } from './components/ActionPathDrawer';
 import { DataArchitectureModal } from './components/DataArchitectureModal';
-import { CheckCircle, AlertCircle, Info } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 
 export const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('cockpit');
@@ -34,7 +34,7 @@ export const App: React.FC = () => {
   };
 
   const handleActionTriggered = (actionName: string, projectName: string) => {
-    setActionNotification(`[OFFICER ACTION RECORDED]: "${actionName}" initiated for ${projectName}. Audit entry logged under Session ID #PS-2026-Q3.`);
+    setActionNotification(`[SIMULATED WORKFLOW ACTION]: "${actionName}" initiated for ${projectName}. Session record logged in prototype.`);
     setTimeout(() => setActionNotification(null), 5000);
   };
 
@@ -44,7 +44,6 @@ export const App: React.FC = () => {
       <HeaderContext
         activeTab={activeTab}
         onTabSelect={handleTabSelect}
-        datasetMode="PAIMANA REFERENCE LAYER (SIH26103)"
         onToggleDatasetModal={() => setIsDataModalOpen(true)}
       />
 
@@ -95,7 +94,7 @@ export const App: React.FC = () => {
             {/* 4. Risk Distribution */}
             <RiskDistribution
               distribution={MOCK_RISK_DISTRIBUTION}
-              totalProjects={MOCK_PORTFOLIO_SUMMARY.monitoredProjectsCount}
+              loadedCount={MOCK_PORTFOLIO_SUMMARY.loadedProjectsCount}
             />
 
             {/* 5. Multi-Quarter Risk Trend Time-Series */}
@@ -133,19 +132,19 @@ export const App: React.FC = () => {
           }}
         >
           <div>
-            <strong>ProjectSentinel</strong> — Predictive Risk Intelligence and Monitoring for Infrastructure Projects.
+            <strong>ProjectSentinel</strong> — Prototype Infrastructure Risk Intelligence (SIH 2026 Problem Statement <strong>SIH26103</strong>).
             <span style={{ margin: '0 8px' }}>•</span>
-            SIH 2026 Problem Statement <strong>SIH26103</strong>
+            Dataset: 10 Reference Central Sector Projects
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <span>Data Boundary: <strong>Central Sector Projects &ge; ₹150 Cr</strong></span>
-            <span>Audit Protocol: <strong>PAIMANA ETL Synchronized</strong></span>
+            <span>Source Reference: <strong>MoSPI PAIMANA Published Overview</strong></span>
+            <span>Integration Mode: <strong>Standalone Reference Environment</strong></span>
             <button 
               onClick={() => setIsDataModalOpen(true)}
               style={{ background: 'none', border: 'none', color: 'var(--admin-blue-700)', cursor: 'pointer', fontSize: '11px', textDecoration: 'underline' }}
             >
-              Schema Architecture
+              Data Origin Classifications
             </button>
           </div>
         </footer>
