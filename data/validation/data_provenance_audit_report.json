@@ -1,0 +1,55 @@
+{
+  "contractId": "PAIMANA-CONTRACT-AUG2025-MAR2026-V1",
+  "timestamp": "2026-09-11T06:05:33.419Z",
+  "auditSummary": {
+    "sourceExtractionStatus": "SOURCE_FOUND",
+    "actualPaimanaPdfsDiscovered": 12,
+    "actualVerifiedSourceObservations": 1536,
+    "actualVerifiedUniqueProjects": 1522,
+    "testFixtureObservations": 113,
+    "testFixtureResolvedRecords": 105,
+    "testFixtureUnresolvedRecords": 8,
+    "testFixtureUniqueProjects": 14
+  },
+  "machineReadableStatusCounts": {
+    "SOURCE_VERIFIED": 1536,
+    "TEST_FIXTURE": 105,
+    "UNRESOLVED": 8,
+    "NOT_CONNECTED": 0
+  },
+  "strictClassificationRules": [
+    "Authentic records must derive directly from official MoSPI PAIMANA PDFs with provenance = [SOURCE] and source_status = SOURCE_VERIFIED.",
+    "All fixture records in data/raw/fixtures/ are synthetic and must strictly carry provenance = [SIMULATED] and source_status = TEST_FIXTURE.",
+    "The November 2025 RRTS-82K contradiction is an injected validation test fixture (sanction 2019 vs completion 2018; progress 115%).",
+    "Test fixtures must NOT be used for ML model training, evaluation, or source-derived UI claims.",
+    "Never claim \"113 source observations\" or \"14 unique projects\" as real MoSPI data."
+  ],
+  "injectedContradictionDetails": {
+    "caseName": "November 2025 Delhi-Meerut RRTS Injected Contradiction",
+    "sourceProjectCode": "MRTS/DEL-MEERUT/RRTS-82K",
+    "classification": "TEST_FIXTURE",
+    "provenance": "[SIMULATED]",
+    "issuesCaught": [
+      {
+        "ruleId": "VAL-DATE-003",
+        "ruleName": "Chronological Sequence",
+        "severity": "CRITICAL",
+        "canonicalProjectId": "PRJ-NCRTC-82",
+        "reportMonth": "2025-11-01",
+        "field": "anticipated_completion_date",
+        "observedValue": "2019-03-07 > 2018-05-31",
+        "message": "Source Contradiction: Sanction date (2019-03-07) is after anticipated completion date (2018-05-31)"
+      },
+      {
+        "ruleId": "VAL-RANGE-004",
+        "ruleName": "Numeric Range Validity",
+        "severity": "CRITICAL",
+        "canonicalProjectId": "PRJ-NCRTC-82",
+        "reportMonth": "2025-11-01",
+        "field": "physical_progress_pct",
+        "observedValue": 115,
+        "message": "Physical progress (115%) outside valid bounds [0.0, 100.0]"
+      }
+    ]
+  }
+}

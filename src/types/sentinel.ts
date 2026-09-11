@@ -60,15 +60,59 @@ export interface RiskFactor {
   isSimulatedScenario: boolean;
 }
 
+export type EvidenceType = 
+  | 'MONTHLY_DPR'
+  | 'SITE_INSPECTION'
+  | 'STATUTORY_NOC'
+  | 'FINANCIAL_AUDIT'
+  | 'DRONE_AERIAL'
+  | 'CONTRACTOR_NOTICE';
+
+export type EvidenceProvenanceCategory =
+  | 'SOURCE'
+  | 'CALCULATED'
+  | 'PROTOTYPE_MODEL'
+  | 'SIMULATED'
+  | 'NOT_CONNECTED';
+
+export type EvidenceVerificationStatus = 
+  | 'SOURCE_VERIFIED' 
+  | 'DEMO_VALIDATED' 
+  | 'SCHEMA_CHECKED' 
+  | 'FLAGGED_INCONSISTENCY' 
+  | 'PENDING_CONFIRMATION' 
+  | 'UNCONNECTED'
+  | 'VERIFIED';
+
 export interface EvidenceRecord {
   id: string;
-  type: 'DPR_SUBMISSION' | 'DRONE_SURVEY' | 'STATE_NOC' | 'EXPENSE_AUDIT' | 'CONTRACTOR_NOTICE' | 'INSPECTION_NOTE';
-  documentTitle: string;
-  date: string;
-  issuingAuthority: string;
-  summary: string;
-  verificationStatus: 'VERIFIED' | 'FLAGGED_INCONSISTENCY' | 'PENDING_CONFIRMATION';
-  isSimulatedRecord: boolean;
+  projectId: string;
+  projectName: string;
+  projectCode: string;
+  issueId?: string;
+  riskSignalId?: string;
+  milestoneId?: string;
+  milestoneTitle?: string;
+  title: string;
+  evidenceType: EvidenceType;
+  source: string;
+  recordDate: string;
+  description: string;
+  observedContent: string;
+  interpretation: string;
+  provenance: EvidenceProvenanceCategory;
+  provenanceLabel: string;
+  integrityReference: string;
+  verificationStatus: EvidenceVerificationStatus;
+  isDemo: boolean;
+  relatedActionIds: string[];
+  // Backwards compatibility aliases
+  type?: string;
+  documentTitle?: string;
+  date?: string;
+  issuingAuthority?: string;
+  summary?: string;
+  isSimulatedRecord?: boolean;
 }
 
 export interface ActionGuidance {
@@ -79,6 +123,33 @@ export interface ActionGuidance {
   recommendedDecision: string;
   statutoryNextStep: string;
   escalationLevel: string;
+}
+
+export interface HistoricalMonitoringCycleRecord {
+  cycleId: string;
+  reportingPeriod: string;
+  reportingDate: string;
+  physicalProgressPct: number;
+  physicalProgressDeltaPct: number;
+  cumulativeExpenditureCr: number;
+  expenditureDeltaCr: number;
+  anticipatedCompletionDate: string;
+  scheduleShiftMonths: number;
+  anticipatedCostCr: number;
+  costRevisionDeltaCr: number;
+  cycleRemark: string;
+}
+
+export interface EvidenceProvenanceItem {
+  id: string;
+  documentTitle: string;
+  provenanceSource: string;
+  reportingPeriod: string;
+  evidenceType: 'MONTHLY_DPR' | 'SITE_INSPECTION' | 'DRONE_AERIAL' | 'FINANCIAL_AUDIT' | 'STATUTORY_NOC' | 'CONTRACTOR_NOTICE';
+  association: string;
+  availabilityStatus: 'SOURCE_CONNECTED' | 'SAMPLE_RECORD' | 'NOT_CONNECTED';
+  summary: string;
+  isSimulatedDemo: boolean;
 }
 
 export interface AttentionQueueItem {
@@ -98,6 +169,8 @@ export interface AttentionQueueItem {
   evidence: EvidenceRecord[];
   actionGuidance: ActionGuidance;
   scenarioTag: 'SIMULATED_SCENARIO' | 'HISTORICAL_BENCHMARK';
+  historicalCycles: HistoricalMonitoringCycleRecord[];
+  evidenceProvenance: EvidenceProvenanceItem[];
 }
 
 export interface PortfolioSummaryStats {
@@ -154,4 +227,141 @@ export interface DataQualitySummary {
   productionIntegrationStatus: string;
   modelStatus: string;
   externalDataStatus: string;
+}
+
+/**
+ * Early Warning Specific Types (Milestone 3)
+ * Reference: SIH26103 Engineering Intelligence Standard
+ */
+export type EarlyWarningRiskState = 'HIGH_ATTENTION' | 'EMERGING_RISK' | 'WATCH' | 'STABLE';
+
+export type CausalDriverCategory = 
+  | 'STATUTORY_ENVIRONMENTAL'
+  | 'LAND_ROW'
+  | 'CONTRACTOR_EXECUTION'
+  | 'FINANCIAL_EXPENDITURE'
+  | 'UTILITY_INTERAGENCY'
+  | 'GEOLOGICAL_TERRAIN'
+  | 'OTHER_INSUFFICIENT';
+
+export interface DriverClusterItem {
+  id: string;
+  category: CausalDriverCategory;
+  categoryLabel: string;
+  observedSignal: string;
+  evidenceFieldMapping: string;
+  interpretationStatus: string;
+  affectedProjects: {
+    projectId: string;
+    projectCode: string;
+    projectName: string;
+    specificFinding: string;
+  }[];
+}
+
+/**
+ * Intervention & Escalation Types (Milestone 4)
+ * Reference: SIH26103 Engineering Operations Standard
+ */
+export type InterventionStatus = 'NEW' | 'ACKNOWLEDGED' | 'UNDER REVIEW' | 'ESCALATED' | 'RESOLVED';
+
+export type ResponsibleRole = 
+  | 'Portfolio Officer'
+  | 'Project Authority'
+  | 'Project Manager'
+  | 'Department/Nodal Officer'
+  | 'Field Officer'
+  | 'Auditor/Reviewer';
+
+export interface ActionEvent {
+  id: string;
+  issueId: string;
+  action: string;
+  actorRole: ResponsibleRole | string;
+  timestamp: string;
+  note: string;
+  previousState: InterventionStatus;
+  newState: InterventionStatus;
+}
+
+export interface InterventionIssue {
+  id: string;
+  projectId: string;
+  projectName: string;
+  projectCode: string;
+  sector: InfrastructureSector;
+  state: string;
+  sourceRiskSignalId: string;
+  issueType: string;
+  severity: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
+  status: InterventionStatus;
+  trend: RiskTrendDirection;
+  trendDelta: number;
+  primaryDriver: string;
+  primaryDriverFieldRef: string;
+  observedSignal: string;
+  whyItMatters: string;
+  responsibleRole: ResponsibleRole;
+  assignedTo: string;
+  reviewDue: string;
+  createdAt: string;
+  updatedAt: string;
+  escalationLevel: string;
+  officerNote: string;
+  evidenceIds: string[];
+  evidenceSummary: string;
+  provenance: string;
+  resolutionNote?: string;
+  resolvedBy?: string;
+  resolvedAt?: string;
+  actionHistory: ActionEvent[];
+}
+
+export type LocationPrecision = 
+  | 'CORRIDOR_EXTENT'
+  | 'SITE_PERIMETER'
+  | 'REGIONAL_LANDMARK'
+  | 'ALIGNMENT_ROW'
+  | 'INSUFFICIENT_DATA';
+
+export interface WeatherExposureContext {
+  isSimulated: boolean;
+  precipitationProbabilityPct: number;
+  rainfallIntensityMmHr: number;
+  temperatureC: number;
+  severeCondition: string;
+  forecastPeriod: string;
+  forecastTimestamp: string;
+  feedStatus: 'NOT_CONNECTED_LIVE_FEED';
+  provenanceLabel: string;
+  feedLabel: string;
+}
+
+export interface ProjectActivityExposure {
+  projectActivity: string;
+  isActivitySimulated: boolean;
+  milestoneId?: string;
+  externalCondition: string;
+  scheduleOverlap: string;
+  projectSentinelContext: string;
+  reviewStatus: string;
+  deterministicOverlapLabel: string;
+  modelContributionLabel: string;
+  causationBoundaryNote: string;
+}
+
+export interface ExternalConditionsRecord {
+  projectId: string;
+  projectCode: string;
+  projectName: string;
+  sector: InfrastructureSector;
+  stateRegion: string;
+  projectLocation: string;
+  locationPrecision: string;
+  lastSourceUpdate: string;
+  locationProvenance: 'SOURCE' | 'SIMULATED';
+  weather: WeatherExposureContext;
+  activityExposure: ProjectActivityExposure;
+  relatedIssueId?: string;
+  relatedEvidenceId?: string;
 }

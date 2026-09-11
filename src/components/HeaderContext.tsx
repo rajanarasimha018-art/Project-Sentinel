@@ -14,10 +14,10 @@ export const HeaderContext: React.FC<HeaderContextProps> = ({
 }) => {
   const navItems = [
     { id: 'cockpit', label: 'Cockpit', active: true },
-    { id: 'projects', label: 'Projects', active: false },
-    { id: 'early-warning', label: 'Early Warning', active: false },
-    { id: 'intervention', label: 'Intervention', active: false },
-    { id: 'evidence', label: 'Evidence', active: false },
+    { id: 'projects', label: 'Project Intelligence', active: true },
+    { id: 'early-warning', label: 'Early Warning', active: true },
+    { id: 'intervention', label: 'Intervention', active: true },
+    { id: 'evidence', label: 'Evidence', active: true },
     { id: 'administration', label: 'Administration', active: false },
   ];
 

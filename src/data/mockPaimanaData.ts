@@ -5,6 +5,7 @@ import {
   QuarterlyTrendPoint,
   DataQualitySummary,
 } from '../types/sentinel';
+import { getProjectHistory, getProjectEvidenceProvenance } from './projectHistoryData';
 
 /**
  * PROJECTSENTINEL REFERENCE DATASET
@@ -17,7 +18,7 @@ import {
  *   designed to validate the officer decision workflow until production field connectors are live.
  */
 
-export const MOCK_ATTENTION_QUEUE: AttentionQueueItem[] = [
+const RAW_ATTENTION_QUEUE: any[] = [
   {
     project: {
       id: 'prj-nhai-842',
@@ -112,8 +113,8 @@ export const MOCK_ATTENTION_QUEUE: AttentionQueueItem[] = [
       projectedStallDays: 140,
       competentAuthority: 'Member (Projects), NHAI & State Forest Nodal Officer',
       fieldOfficers: ['Project Director NHAI PIU', 'District Revenue Officer'],
-      recommendedDecision: 'Convene tripartite review to isolate unaffected 46 km for phased delivery; align escrow payments to verified vendor work.',
-      statutoryNextStep: 'Issue contractual cure notice under Concession Agreement Clause 23.',
+      recommendedDecision: 'Assess whether a tripartite review is warranted based on the observed schedule and implementation signals. Final action remains with the competent authority.',
+      statutoryNextStep: 'Contractual review under Concession Agreement Clause 23.',
       escalationLevel: 'Ministry / Apex Review',
     },
   },
@@ -191,8 +192,8 @@ export const MOCK_ATTENTION_QUEUE: AttentionQueueItem[] = [
       projectedStallDays: 165,
       competentAuthority: 'Member (Infrastructure), Railway Board & CMD RVNL',
       fieldOfficers: ['Chief Project Manager RVNL', 'Head Geotechnical Expert'],
-      recommendedDecision: 'Approve modified NATM support class and sanction advance pre-grouting fund release.',
-      statutoryNextStep: 'Refer geological deviation to Independent Technical Review Committee.',
+      recommendedDecision: 'Assess whether approving modified NATM support class and sanctioning advance pre-grouting fund release is appropriate based on geotechnical inspection logs. Final action remains with the competent authority.',
+      statutoryNextStep: 'Technical review of geological deviation before Independent Technical Review Committee.',
       escalationLevel: 'Ministry / Apex Review',
     },
   },
@@ -260,8 +261,8 @@ export const MOCK_ATTENTION_QUEUE: AttentionQueueItem[] = [
       projectedStallDays: 110,
       competentAuthority: 'State Chief Secretary & Chairman, Railway Board',
       fieldOfficers: ['Managing Director DFCCIL', 'District Collectors'],
-      recommendedDecision: 'Authorize special revenue tribunal for expedited land deposit disbursals.',
-      statutoryNextStep: 'File expedited hearing motion before State High Court.',
+      recommendedDecision: 'Assess whether establishing a special revenue tribunal for expedited land deposit disbursals is warranted. Final action remains with the competent authority.',
+      statutoryNextStep: 'Review legal filing status before State High Court.',
       escalationLevel: 'Ministry Level Review',
     },
   },
@@ -329,8 +330,8 @@ export const MOCK_ATTENTION_QUEUE: AttentionQueueItem[] = [
       projectedStallDays: 85,
       competentAuthority: 'Secretary (Power) & CMD NTPC',
       fieldOfficers: ['Project Head NTPC', 'Regional Environment Officer'],
-      recommendedDecision: 'Approve interim slurry containment protocol to enable trial synchronization.',
-      statutoryNextStep: 'Submit compliance documentation to Pollution Control Board.',
+      recommendedDecision: 'Assess whether an interim slurry containment protocol can enable conditional trial synchronization while maintaining environmental compliance. Final action remains with the competent authority.',
+      statutoryNextStep: 'Review compliance documentation for submission to Pollution Control Board.',
       escalationLevel: 'Ministry Level Review',
     },
   },
@@ -398,8 +399,8 @@ export const MOCK_ATTENTION_QUEUE: AttentionQueueItem[] = [
       projectedStallDays: 95,
       competentAuthority: 'Secretary (Ports & Shipping) & State Chief Secretary',
       fieldOfficers: ['Port Chairman', 'District Collector Palghar'],
-      recommendedDecision: 'Implement institutional stakeholder dialogue framework and file expedited hearing motion.',
-      statutoryNextStep: 'File early listing application before Division Bench.',
+      recommendedDecision: 'Assess whether convening an institutional stakeholder dialogue framework and seeking expedited judicial hearing is appropriate. Final action remains with the competent authority.',
+      statutoryNextStep: 'Review listing application before Division Bench.',
       escalationLevel: 'Ministry Level Review',
     },
   },
@@ -467,8 +468,8 @@ export const MOCK_ATTENTION_QUEUE: AttentionQueueItem[] = [
       projectedStallDays: 78,
       competentAuthority: 'ACS (Urban Development) Karnataka & MD BMRCL',
       fieldOfficers: ['Chief Engineer (Construction)', 'Traffic Police Commissioner'],
-      recommendedDecision: 'Approve coordinated 48-hour weekend utility diversion window with pre-fabricated bypass piping.',
-      statutoryNextStep: 'Execute inter-departmental safety protocol.',
+      recommendedDecision: 'Assess whether a coordinated 48-hour weekend utility diversion window with pre-fabricated bypass piping can be scheduled. Final action remains with the competent authority.',
+      statutoryNextStep: 'Joint inter-departmental safety protocol verification.',
       escalationLevel: 'State / Project Review',
     },
   },
@@ -536,8 +537,8 @@ export const MOCK_ATTENTION_QUEUE: AttentionQueueItem[] = [
       projectedStallDays: 60,
       competentAuthority: 'Managing Director NHIDCL & Advisor to LG Ladakh',
       fieldOfficers: ['Executive Director NHIDCL', 'Project Tunnel Manager'],
-      recommendedDecision: 'Maintain double shifts on insulated West portal while telemetry tracks East side.',
-      statutoryNextStep: 'Sanction provisional winter heating allowance.',
+      recommendedDecision: 'Assess whether maintaining double shifts on insulated West portal while telemetry tracks East side is operationally viable. Final action remains with the competent authority.',
+      statutoryNextStep: 'Administrative review of winter heating allowance.',
       escalationLevel: 'Agency / Project Review',
     },
   },
@@ -605,8 +606,8 @@ export const MOCK_ATTENTION_QUEUE: AttentionQueueItem[] = [
       projectedStallDays: 25,
       competentAuthority: 'Director (Pipelines), IOCL & PESO Authority',
       fieldOfficers: ['General Manager Pipelines', 'Terminal Head'],
-      recommendedDecision: 'Authorize phased commissioning starting with feeder terminal.',
-      statutoryNextStep: 'Schedule final joint site signoff inspection.',
+      recommendedDecision: 'Assess whether phased commissioning starting with feeder terminal meets statutory requirements. Final action remains with the competent authority.',
+      statutoryNextStep: 'Joint site signoff inspection check.',
       escalationLevel: 'Agency Level Signoff',
     },
   },
@@ -674,8 +675,8 @@ export const MOCK_ATTENTION_QUEUE: AttentionQueueItem[] = [
       projectedStallDays: 20,
       competentAuthority: 'Director General of Civil Aviation & Airport CEO',
       fieldOfficers: ['Project Director', 'COO Airport'],
-      recommendedDecision: 'Conduct passenger terminal trial simulation.',
-      statutoryNextStep: 'Issue formal NOTAM for runway activation.',
+      recommendedDecision: 'Assess readiness for passenger terminal trial simulation based on instrument calibration certification. Final action remains with the competent authority.',
+      statutoryNextStep: 'Regulatory review of NOTAM filing for runway activation.',
       escalationLevel: 'Regulatory Signoff',
     },
   },
@@ -743,12 +744,18 @@ export const MOCK_ATTENTION_QUEUE: AttentionQueueItem[] = [
       projectedStallDays: 0,
       competentAuthority: 'CMD POWERGRID & Electricity Regulatory Commission',
       fieldOfficers: ['Executive Director Transmission', 'Chief Engineer CEA'],
-      recommendedDecision: 'Notify national grid dispatch center of available renewable capacity.',
-      statutoryNextStep: 'File final tariff petition before CERC.',
+      recommendedDecision: 'Assess transmission readiness to notify national grid dispatch center of available renewable evacuation capacity. Final action remains with the competent authority.',
+      statutoryNextStep: 'Regulatory review of final tariff petition before CERC.',
       escalationLevel: 'Regulatory Endorsement',
     },
   },
 ];
+
+export const MOCK_ATTENTION_QUEUE: AttentionQueueItem[] = RAW_ATTENTION_QUEUE.map((item) => ({
+  ...item,
+  historicalCycles: getProjectHistory(item.project.id, item.project),
+  evidenceProvenance: getProjectEvidenceProvenance(item.project.id, item.project),
+}));
 
 // Reproducibly calculated directly from MOCK_ATTENTION_QUEUE loaded records
 const computedSanctionedCr = MOCK_ATTENTION_QUEUE.reduce((acc, item) => acc + item.project.sanctionedCostCr, 0);

@@ -1,0 +1,98 @@
+[
+  {
+    "reviewId": "REV-FIXTURE-PAIMANA-2025-08-14",
+    "sourceReport": "fixture_paimana_monthly_report_2025_08.json",
+    "sourcePage": 102,
+    "sourceProjectCode": null,
+    "projectName": "Floating Solar PV Installation Package-A",
+    "implementingAgency": "NTPC REL",
+    "sector": "Power & Renewable",
+    "state": "Madhya Pradesh",
+    "reason": "Ambiguous entity: non-unique name and agency without verified project code",
+    "actionRequired": "Manual officer confirmation required before canonical registry promotion"
+  },
+  {
+    "reviewId": "REV-FIXTURE-PAIMANA-2025-09-14",
+    "sourceReport": "fixture_paimana_monthly_report_2025_09.json",
+    "sourcePage": 102,
+    "sourceProjectCode": null,
+    "projectName": "Floating Solar PV Installation Package-A",
+    "implementingAgency": "NTPC REL",
+    "sector": "Power & Renewable",
+    "state": "Madhya Pradesh",
+    "reason": "Ambiguous entity: non-unique name and agency without verified project code",
+    "actionRequired": "Manual officer confirmation required before canonical registry promotion"
+  },
+  {
+    "reviewId": "REV-FIXTURE-PAIMANA-2025-10-14",
+    "sourceReport": "fixture_paimana_monthly_report_2025_10.json",
+    "sourcePage": 102,
+    "sourceProjectCode": null,
+    "projectName": "Floating Solar PV Installation Package-A",
+    "implementingAgency": "NTPC REL",
+    "sector": "Power & Renewable",
+    "state": "Madhya Pradesh",
+    "reason": "Ambiguous entity: non-unique name and agency without verified project code",
+    "actionRequired": "Manual officer confirmation required before canonical registry promotion"
+  },
+  {
+    "reviewId": "REV-FIXTURE-PAIMANA-2025-11-15",
+    "sourceReport": "fixture_paimana_monthly_report_2025_11.json",
+    "sourcePage": 102,
+    "sourceProjectCode": null,
+    "projectName": "Floating Solar PV Installation Package-A",
+    "implementingAgency": "NTPC REL",
+    "sector": "Power & Renewable",
+    "state": "Madhya Pradesh",
+    "reason": "Ambiguous entity: non-unique name and agency without verified project code",
+    "actionRequired": "Manual officer confirmation required before canonical registry promotion"
+  },
+  {
+    "reviewId": "REV-FIXTURE-PAIMANA-2025-12-14",
+    "sourceReport": "fixture_paimana_monthly_report_2025_12.json",
+    "sourcePage": 102,
+    "sourceProjectCode": null,
+    "projectName": "Floating Solar PV Installation Package-A",
+    "implementingAgency": "NTPC REL",
+    "sector": "Power & Renewable",
+    "state": "Madhya Pradesh",
+    "reason": "Ambiguous entity: non-unique name and agency without verified project code",
+    "actionRequired": "Manual officer confirmation required before canonical registry promotion"
+  },
+  {
+    "reviewId": "REV-FIXTURE-PAIMANA-2026-01-14",
+    "sourceReport": "fixture_paimana_monthly_report_2026_01.json",
+    "sourcePage": 102,
+    "sourceProjectCode": null,
+    "projectName": "Floating Solar PV Installation Package-A",
+    "implementingAgency": "NTPC REL",
+    "sector": "Power & Renewable",
+    "state": "Madhya Pradesh",
+    "reason": "Ambiguous entity: non-unique name and agency without verified project code",
+    "actionRequired": "Manual officer confirmation required before canonical registry promotion"
+  },
+  {
+    "reviewId": "REV-FIXTURE-PAIMANA-2026-02-14",
+    "sourceReport": "fixture_paimana_monthly_report_2026_02.json",
+    "sourcePage": 102,
+    "sourceProjectCode": null,
+    "projectName": "Floating Solar PV Installation Package-A",
+    "implementingAgency": "NTPC REL",
+    "sector": "Power & Renewable",
+    "state": "Madhya Pradesh",
+    "reason": "Ambiguous entity: non-unique name and agency without verified project code",
+    "actionRequired": "Manual officer confirmation required before canonical registry promotion"
+  },
+  {
+    "reviewId": "REV-FIXTURE-PAIMANA-2026-03-14",
+    "sourceReport": "fixture_paimana_monthly_report_2026_03.json",
+    "sourcePage": 102,
+    "sourceProjectCode": null,
+    "projectName": "Floating Solar PV Installation Package-A",
+    "implementingAgency": "NTPC REL",
+    "sector": "Power & Renewable",
+    "state": "Madhya Pradesh",
+    "reason": "Ambiguous entity: non-unique name and agency without verified project code",
+    "actionRequired": "Manual officer confirmation required before canonical registry promotion"
+  }
+]

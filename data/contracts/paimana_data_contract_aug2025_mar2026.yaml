@@ -1,0 +1,429 @@
+# ==============================================================================
+# PAIMANA CANONICAL DATA CONTRACT (AUG 2025 – MAR 2026)
+# Standard: Government Infrastructure Intelligence & Auditable Provenance
+# SIH 2026 Problem Statement SIH26103
+# Canonical Source of Truth Contract for ProjectSentinel
+# ==============================================================================
+
+contract:
+  id: "PAIMANA-CONTRACT-AUG2025-MAR2026-V1"
+  name: "MoSPI PAIMANA Canonical Monthly Ingestion & Validation Contract"
+  version: "1.0.0"
+  effective_start_month: "2025-08-01"
+  effective_end_month: "2026-03-01"
+  source_authority: "Ministry of Statistics and Programme Implementation (MoSPI)"
+  monitoring_system: "PAIMANA (Project Assessment and Infrastructure Monitoring Analytical Network Architecture)"
+  coverage: "Central Sector Projects costing ₹150 Crore and above"
+  governance:
+    silent_repair_allowed: false
+    missing_value_policy: "STRICT_NULL"
+    forbidden_identity_keys:
+      - "pdf_serial_number"
+      - "row_number"
+      - "page_number"
+      - "month_local_sequence"
+    provenance_classes:
+      - "[SOURCE]"
+      - "[CALCULATED]"
+      - "[PROTOTYPE MODEL]"
+      - "[SIMULATED]"
+      - "[NOT CONNECTED]"
+
+# ------------------------------------------------------------------------------
+# 1. REGISTERED SOURCE REPORTS (AUG 2025 - MAR 2026)
+# ------------------------------------------------------------------------------
+source_reports:
+  - report_id: "PAIMANA-REP-2025-08"
+    month_name: "August 2025"
+    canonical_month: "2025-08-01"
+    published_date: "2025-09-15"
+    source_filename: "paimana_monthly_report_2025_08.json"
+    status: "REGISTERED"
+
+  - report_id: "PAIMANA-REP-2025-09"
+    month_name: "September 2025"
+    canonical_month: "2025-09-01"
+    published_date: "2025-10-15"
+    source_filename: "paimana_monthly_report_2025_09.json"
+    status: "REGISTERED"
+
+  - report_id: "PAIMANA-REP-2025-10"
+    month_name: "October 2025"
+    canonical_month: "2025-10-01"
+    published_date: "2025-11-15"
+    source_filename: "paimana_monthly_report_2025_10.json"
+    status: "REGISTERED"
+
+  - report_id: "PAIMANA-REP-2025-11"
+    month_name: "November 2025"
+    canonical_month: "2025-11-01"
+    published_date: "2025-12-15"
+    source_filename: "paimana_monthly_report_2025_11.json"
+    status: "REGISTERED"
+
+  - report_id: "PAIMANA-REP-2025-12"
+    month_name: "December 2025"
+    canonical_month: "2025-12-01"
+    published_date: "2026-01-15"
+    source_filename: "paimana_monthly_report_2025_12.json"
+    status: "REGISTERED"
+
+  - report_id: "PAIMANA-REP-2026-01"
+    month_name: "January 2026"
+    canonical_month: "2026-01-01"
+    published_date: "2026-02-15"
+    source_filename: "paimana_monthly_report_2026_01.json"
+    status: "REGISTERED"
+
+  - report_id: "PAIMANA-REP-2026-02"
+    month_name: "February 2026"
+    canonical_month: "2026-02-01"
+    published_date: "2026-03-15"
+    source_filename: "paimana_monthly_report_2026_02.json"
+    status: "REGISTERED"
+
+  - report_id: "PAIMANA-REP-2026-03"
+    month_name: "March 2026"
+    canonical_month: "2026-03-01"
+    published_date: "2026-04-15"
+    source_filename: "paimana_monthly_report_2026_03.json"
+    status: "REGISTERED"
+
+# ------------------------------------------------------------------------------
+# 2. CANONICAL RECORD SCHEMA: project_monthly_record
+# ------------------------------------------------------------------------------
+schema:
+  entity: "project_monthly_record"
+  description: "Canonical monthly operational observation for an infrastructure project"
+  fields:
+    # --- Project Identification ---
+    - name: "canonical_project_id"
+      type: "string"
+      required: true
+      description: "Resolved immutable cross-month project identifier (e.g., PRJ-NHAI-842)"
+      pattern: "^PRJ-[A-Z0-9]+-[0-9]+$"
+
+    - name: "source_project_code"
+      type: "string"
+      required: false
+      nullable: true
+      description: "Official project code as reported in source document, if present"
+
+    - name: "project_name"
+      type: "string"
+      required: true
+      description: "Full canonical title of the project"
+
+    - name: "implementing_agency"
+      type: "string"
+      required: true
+      description: "Entity responsible for execution (e.g. NHAI, RVNL, NTPC)"
+
+    - name: "ministry"
+      type: "string"
+      required: true
+      description: "Nodal Central Ministry (e.g. MoRTH, Ministry of Railways)"
+
+    - name: "sector"
+      type: "string"
+      required: true
+      enum:
+        - "Highways & Roads"
+        - "Railways & Metros"
+        - "Power & Renewable"
+        - "Petroleum & Natural Gas"
+        - "Ports & Shipping"
+        - "Civil Aviation"
+        - "Urban Development & Water"
+
+    - name: "state"
+      type: "string"
+      required: true
+      description: "Primary state or multi-state corridor jurisdiction"
+
+    # --- Temporal Attributes ---
+    - name: "report_month"
+      type: "string"
+      required: true
+      description: "First day of reporting month in YYYY-MM-01 format"
+      pattern: "^[0-9]{4}-[0-9]{2}-01$"
+
+    - name: "report_date"
+      type: "string"
+      required: true
+      description: "Reporting cut-off date in YYYY-MM-DD format"
+      pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+
+    - name: "sanction_date"
+      type: "string"
+      required: false
+      nullable: true
+      description: "Date of cabinet / administrative approval in YYYY-MM-DD"
+      pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+
+    - name: "original_completion_date"
+      type: "string"
+      required: false
+      nullable: true
+      description: "Originally sanctioned completion milestone in YYYY-MM-DD"
+      pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+
+    - name: "anticipated_completion_date"
+      type: "string"
+      required: false
+      nullable: true
+      description: "Latest anticipated commercial operational date in YYYY-MM-DD"
+      pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+
+    # --- Financial Metrics (Normalized to INR Crore) ---
+    - name: "sanctioned_cost_cr"
+      type: "float"
+      required: true
+      nullable: true
+      minimum: 0.0
+      unit: "INR_CRORE"
+      description: "Original approved cost in ₹ Crore"
+
+    - name: "anticipated_cost_cr"
+      type: "float"
+      required: true
+      nullable: true
+      minimum: 0.0
+      unit: "INR_CRORE"
+      description: "Latest revised or anticipated cost in ₹ Crore"
+
+    - name: "cumulative_expenditure_cr"
+      type: "float"
+      required: true
+      nullable: true
+      minimum: 0.0
+      unit: "INR_CRORE"
+      description: "Total expenditure incurred to date in ₹ Crore"
+
+    - name: "cost_overrun_cr"
+      type: "float"
+      required: false
+      nullable: true
+      unit: "INR_CRORE"
+      description: "Anticipated cost minus sanctioned cost (₹ Crore)"
+
+    # --- Physical & Progress Metrics (0.0 to 100.0) ---
+    - name: "physical_progress_pct"
+      type: "float"
+      required: false
+      nullable: true
+      minimum: 0.0
+      maximum: 100.0
+      unit: "PERCENT"
+      description: "Reported cumulative physical completion percentage"
+
+    - name: "financial_progress_pct"
+      type: "float"
+      required: false
+      nullable: true
+      minimum: 0.0
+      maximum: 100.0
+      unit: "PERCENT"
+      description: "Reported cumulative financial expenditure percentage"
+
+    # --- Operational Status & Qualitative Indicators ---
+    - name: "project_status"
+      type: "string"
+      required: true
+      enum:
+        - "ON_SCHEDULE"
+        - "DELAYED"
+        - "STALLED"
+        - "COMPLETED"
+        - "CRITICAL_DELAY"
+        - "UNKNOWN"
+
+    - name: "time_overrun_months"
+      type: "integer"
+      required: false
+      nullable: true
+      minimum: 0
+      description: "Cumulative delay in months beyond original milestone"
+
+    - name: "primary_impediment_category"
+      type: "string"
+      required: false
+      nullable: true
+      enum:
+        - "LAND_ACQUISITION"
+        - "STATUTORY_CLEARANCES"
+        - "CONTRACTOR_CAPACITY"
+        - "GEOLOGICAL"
+        - "FINANCIAL_FLOW"
+        - "UTILITY_SHIFTING"
+        - "LAW_AND_ORDER"
+        - "NONE"
+
+    - name: "primary_impediment_summary"
+      type: "string"
+      required: false
+      nullable: true
+      description: "Ground impediment summary as cited in source notes"
+
+    # --- Full Provenance Record ---
+    - name: "provenance"
+      type: "object"
+      required: true
+      properties:
+        source_report:
+          type: "string"
+          required: true
+          description: "Filename of originating report"
+        source_page:
+          type: "integer"
+          required: false
+          nullable: true
+          description: "Document page where record occurs"
+        source_section:
+          type: "string"
+          required: true
+          description: "Section / Chapter / Table identifier"
+        source_field:
+          type: "string"
+          required: true
+          description: "Original column / field key in raw extraction"
+        classification:
+          type: "string"
+          required: true
+          enum:
+            - "[SOURCE]"
+            - "[CALCULATED]"
+            - "[PROTOTYPE MODEL]"
+            - "[SIMULATED]"
+            - "[NOT CONNECTED]"
+
+    # --- Data Quality Metadata ---
+    - name: "data_quality_flags"
+      type: "object"
+      required: true
+      properties:
+        tier:
+          type: "string"
+          required: true
+          enum: ["SUFFICIENT", "PARTIAL", "INSUFFICIENT"]
+        missing_fields:
+          type: "array"
+          items: "string"
+        inconsistency_flags:
+          type: "array"
+          items: "string"
+
+# ------------------------------------------------------------------------------
+# 3. PROJECT IDENTITY RESOLUTION HIERARCHY
+# ------------------------------------------------------------------------------
+identity_resolution:
+  forbidden_keys:
+    - "pdf_serial_number"
+    - "row_number"
+    - "page_number"
+    - "month_local_sequence"
+  priority_order:
+    tier_1:
+      description: "Exact match on verified PAIMANA project code"
+      key: "source_project_code"
+      confidence: 1.00
+    tier_2:
+      description: "Exact match on normalized project name + implementing agency"
+      keys: ["normalized_project_name", "implementing_agency"]
+      confidence: 0.95
+    tier_3:
+      description: "Fuzzy / composite match on normalized project name + agency + sector + state"
+      keys: ["normalized_project_name", "implementing_agency", "sector", "state"]
+      confidence_threshold: 0.85
+    tier_4:
+      description: "Manual Review Queue: Ambiguous matches or candidates below confidence threshold"
+      action: "ROUTE_TO_MANUAL_REVIEW_QUEUE"
+      auto_resolve: false
+
+# ------------------------------------------------------------------------------
+# 4. NORMALIZATION RULES
+# ------------------------------------------------------------------------------
+normalization_rules:
+  dates:
+    target_format: "YYYY-MM-DD"
+    valid_source_formats:
+      - "DD-MMM-YYYY"
+      - "DD/MM/YYYY"
+      - "YYYY-MM-DD"
+      - "DD.MM.YYYY"
+    report_month_target: "YYYY-MM-01"
+
+  currency:
+    target_unit: "INR_CRORE"
+    symbol: "₹"
+    precision: 2
+    scaling_rules:
+      - unit_source: "Lakh"
+        multiplier: 0.01
+      - unit_source: "Crore"
+        multiplier: 1.0
+      - unit_source: "Thousand"
+        multiplier: 0.0001
+
+  percentages:
+    range: [0.0, 100.0]
+    precision: 2
+    treat_out_of_range_as: "INCONSISTENT_FLAG"
+
+  missing_values:
+    canonical_missing: null
+    forbidden_coercion: "NEVER convert null / missing values to zero"
+    explicit_zero_preservation: "Explicit source 0.0 must be preserved as numeric 0.0"
+
+# ------------------------------------------------------------------------------
+# 5. VALIDATION SUITE SPECIFICATION
+# ------------------------------------------------------------------------------
+validation_rules:
+  - id: "VAL-SCHEMA-001"
+    name: "Schema Conformance"
+    description: "All mandatory fields must be present with valid canonical data types"
+    severity: "CRITICAL"
+
+  - id: "VAL-ID-002"
+    name: "Identity Integrity"
+    description: "Every record must resolve to a valid canonical_project_id without using forbidden keys"
+    severity: "CRITICAL"
+
+  - id: "VAL-DATE-003"
+    name: "Chronological Sequence"
+    description: "sanction_date <= original_completion_date; sanction_date <= anticipated_completion_date"
+    severity: "HIGH"
+
+  - id: "VAL-RANGE-004"
+    name: "Numeric Range Validity"
+    description: "physical_progress_pct and financial_progress_pct must lie strictly within [0.0, 100.0]"
+    severity: "CRITICAL"
+
+  - id: "VAL-LOGIC-005"
+    name: "Logical Financial Consistency"
+    description: "anticipated_cost_cr must equal sanctioned_cost_cr + cost_overrun_cr within tolerance"
+    severity: "MEDIUM"
+
+  - id: "VAL-CONT-006"
+    name: "Longitudinal Continuity"
+    description: "cumulative_expenditure_cr and physical_progress_pct should be non-decreasing across consecutive months unless flagged for scope de-scoping"
+    severity: "HIGH"
+
+  - id: "VAL-PROV-007"
+    name: "Provenance Traceability"
+    description: "Every extracted field must record source_report, source_page, source_section, and classification"
+    severity: "CRITICAL"
+
+  - id: "VAL-LEAK-008"
+    name: "Temporal Leakage Prevention"
+    description: "Report observation date must not exceed report publication cutoff; future cycle observations forbidden in historical reports"
+    severity: "CRITICAL"
+
+# ------------------------------------------------------------------------------
+# 6. NON-SILENT REPAIR & CONTRADICTION POLICY
+# ------------------------------------------------------------------------------
+contradiction_policy:
+  silent_repair_prohibited: true
+  action_on_contradiction: "FLAG_AND_RETAIN_SOURCE"
+  review_queue_routing: true
+  audit_entry_required: true

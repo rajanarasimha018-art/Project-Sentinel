@@ -1,0 +1,250 @@
+[
+  {
+    "canonical_project_id": "PRJ-NHAI-842",
+    "canonical_project_name": "Vadodara–Mumbai Expressway Phase-II (Km 26 to Km 89)",
+    "implementing_agency": "National Highways Authority of India (NHAI)",
+    "sector": "Highways & Roads",
+    "state": "Maharashtra",
+    "registered_source_codes": [
+      "NHAI/MUM-VAD/EXP-PKG2",
+      "PRJ-NHAI-842"
+    ],
+    "observations_count": 8,
+    "first_observation_month": "2025-08-01",
+    "latest_observation_month": "2026-03-01",
+    "latest_physical_progress": 57.2,
+    "latest_sanctioned_cost_cr": 8740,
+    "latest_anticipated_cost_cr": 11420,
+    "fixture_status": "TEST_FIXTURE"
+  },
+  {
+    "canonical_project_id": "PRJ-RVNL-319",
+    "canonical_project_name": "Rishikesh–Karnaprayag New Broad Gauge Rail Link (125 Km)",
+    "implementing_agency": "Rail Vikas Nigam Limited (RVNL)",
+    "sector": "Railways & Metros",
+    "state": "Uttarakhand",
+    "registered_source_codes": [
+      "RVNL/NR/RK-RAIL-125",
+      "PRJ-RVNL-319"
+    ],
+    "observations_count": 8,
+    "first_observation_month": "2025-08-01",
+    "latest_observation_month": "2026-03-01",
+    "latest_physical_progress": 69.8,
+    "latest_sanctioned_cost_cr": 16216,
+    "latest_anticipated_cost_cr": 21890,
+    "fixture_status": "TEST_FIXTURE"
+  },
+  {
+    "canonical_project_id": "PRJ-DFCC-104",
+    "canonical_project_name": "Eastern Dedicated Freight Corridor: Sonnagar–Dankuni (538 Km)",
+    "implementing_agency": "Dedicated Freight Corridor Corporation of India (DFCCIL)",
+    "sector": "Railways & Metros",
+    "state": "West Bengal & Bihar",
+    "registered_source_codes": [
+      "DFCC/EDFC/SON-DNK-538",
+      "PRJ-DFCC-104"
+    ],
+    "observations_count": 8,
+    "first_observation_month": "2025-08-01",
+    "latest_observation_month": "2026-03-01",
+    "latest_physical_progress": 40.4,
+    "latest_sanctioned_cost_cr": 14980,
+    "latest_anticipated_cost_cr": 18200,
+    "fixture_status": "TEST_FIXTURE"
+  },
+  {
+    "canonical_project_id": "PRJ-JNPA-215",
+    "canonical_project_name": "Jawaharlal Nehru Port Container Terminal-4 (Phase-II Expansion)",
+    "implementing_agency": "Jawaharlal Nehru Port Authority (JNPA)",
+    "sector": "Ports & Shipping",
+    "state": "Maharashtra",
+    "registered_source_codes": [
+      "JNPA/BMCT-TERM4/PH2",
+      "PRJ-JNPA-215"
+    ],
+    "observations_count": 8,
+    "first_observation_month": "2025-08-01",
+    "latest_observation_month": "2026-03-01",
+    "latest_physical_progress": 68.2,
+    "latest_sanctioned_cost_cr": 3196,
+    "latest_anticipated_cost_cr": 3840,
+    "fixture_status": "TEST_FIXTURE"
+  },
+  {
+    "canonical_project_id": "PRJ-NTPC-608",
+    "canonical_project_name": "North Karanpura Super Thermal Power Project (3x660 MW)",
+    "implementing_agency": "NTPC Limited",
+    "sector": "Power & Renewable",
+    "state": "Jharkhand",
+    "registered_source_codes": [
+      "NTPC/EAST/NK-STPP-3X660",
+      "PRJ-NTPC-608"
+    ],
+    "observations_count": 8,
+    "first_observation_month": "2025-08-01",
+    "latest_observation_month": "2026-03-01",
+    "latest_physical_progress": 84.3,
+    "latest_sanctioned_cost_cr": 14366,
+    "latest_anticipated_cost_cr": 18950,
+    "fixture_status": "TEST_FIXTURE"
+  },
+  {
+    "canonical_project_id": "PRJ-BMRCL-791",
+    "canonical_project_name": "Bangalore Metro Phase-2A (ORR Line: Silk Board to KR Puram)",
+    "implementing_agency": "Bangalore Metro Rail Corporation Limited (BMRCL)",
+    "sector": "Railways & Metros",
+    "state": "Karnataka",
+    "registered_source_codes": [
+      "BMRCL/PH2A/ORR-SILK-KR",
+      "PRJ-BMRCL-791"
+    ],
+    "observations_count": 8,
+    "first_observation_month": "2025-08-01",
+    "latest_observation_month": "2026-03-01",
+    "latest_physical_progress": 52.4,
+    "latest_sanctioned_cost_cr": 5994,
+    "latest_anticipated_cost_cr": 6850,
+    "fixture_status": "TEST_FIXTURE"
+  },
+  {
+    "canonical_project_id": "PRJ-POWER-303",
+    "canonical_project_name": "Green Energy Corridor Inter-State Transmission Phase-II",
+    "implementing_agency": "Power Grid Corporation of India Limited (POWERGRID)",
+    "sector": "Power & Renewable",
+    "state": "Rajasthan",
+    "registered_source_codes": [
+      "PGCIL/GEC-II/RAJ-TRANS",
+      "PRJ-POWER-303"
+    ],
+    "observations_count": 8,
+    "first_observation_month": "2025-08-01",
+    "latest_observation_month": "2026-03-01",
+    "latest_physical_progress": 92.2,
+    "latest_sanctioned_cost_cr": 4820,
+    "latest_anticipated_cost_cr": 4950,
+    "fixture_status": "TEST_FIXTURE"
+  },
+  {
+    "canonical_project_id": "PRJ-IOCL-452",
+    "canonical_project_name": "Paradip–Hyderabad Petroleum Product Pipeline (1212 Km)",
+    "implementing_agency": "Indian Oil Corporation Limited (IOCL)",
+    "sector": "Petroleum & Natural Gas",
+    "state": "Odisha & Telangana",
+    "registered_source_codes": [
+      "IOCL/PL/PRD-HYD-1212",
+      "PRJ-IOCL-452"
+    ],
+    "observations_count": 8,
+    "first_observation_month": "2025-08-01",
+    "latest_observation_month": "2026-03-01",
+    "latest_physical_progress": 78.3,
+    "latest_sanctioned_cost_cr": 3338,
+    "latest_anticipated_cost_cr": 3980,
+    "fixture_status": "TEST_FIXTURE"
+  },
+  {
+    "canonical_project_id": "PRJ-AAI-580",
+    "canonical_project_name": "Greenfield Airport Development: Jewar Noida (Phase-I)",
+    "implementing_agency": "Yamuna International Airport Private Limited (YIAPL) / AAI",
+    "sector": "Civil Aviation",
+    "state": "Uttar Pradesh",
+    "registered_source_codes": [
+      "YIAPL/NOIDA-AIRPORT/PH1",
+      "PRJ-AAI-580"
+    ],
+    "observations_count": 8,
+    "first_observation_month": "2025-08-01",
+    "latest_observation_month": "2026-03-01",
+    "latest_physical_progress": 84.4,
+    "latest_sanctioned_cost_cr": 5730,
+    "latest_anticipated_cost_cr": 6520,
+    "fixture_status": "TEST_FIXTURE"
+  },
+  {
+    "canonical_project_id": "PRJ-NHAI-128",
+    "canonical_project_name": "Zojila Tunnel & Approaches (14.15 Km Road Tunnel)",
+    "implementing_agency": "National Highways & Infrastructure Development Corporation (NHIDCL)",
+    "sector": "Highways & Roads",
+    "state": "Jammu & Kashmir / Ladakh",
+    "registered_source_codes": [
+      "NHIDCL/JK/ZOJILA-TUNNEL-14K",
+      "PRJ-NHAI-128"
+    ],
+    "observations_count": 8,
+    "first_observation_month": "2025-08-01",
+    "latest_observation_month": "2026-03-01",
+    "latest_physical_progress": 52.2,
+    "latest_sanctioned_cost_cr": 6808,
+    "latest_anticipated_cost_cr": 7400,
+    "fixture_status": "TEST_FIXTURE"
+  },
+  {
+    "canonical_project_id": "PRJ-DFCC-306",
+    "canonical_project_name": "Western Dedicated Freight Corridor: Rewari–Madar Section (306 Km)",
+    "implementing_agency": "Dedicated Freight Corridor Corporation of India (DFCCIL)",
+    "sector": "Railways & Metros",
+    "state": "Haryana & Rajasthan",
+    "registered_source_codes": [
+      "DFCC/WDFC/REW-MAD-306"
+    ],
+    "observations_count": 8,
+    "first_observation_month": "2025-08-01",
+    "latest_observation_month": "2026-03-01",
+    "latest_physical_progress": 84.1,
+    "latest_sanctioned_cost_cr": 5420,
+    "latest_anticipated_cost_cr": 6180,
+    "fixture_status": "TEST_FIXTURE"
+  },
+  {
+    "canonical_project_id": "PRJ-NHPC-2880",
+    "canonical_project_name": "Dibang Multipurpose Hydroelectric Project (2880 MW)",
+    "implementing_agency": "NHPC Limited",
+    "sector": "Power & Renewable",
+    "state": "Arunachal Pradesh",
+    "registered_source_codes": [
+      "NHPC/HYDRO/DIBANG-2880MW"
+    ],
+    "observations_count": 8,
+    "first_observation_month": "2025-08-01",
+    "latest_observation_month": "2026-03-01",
+    "latest_physical_progress": 5.6,
+    "latest_sanctioned_cost_cr": 31876,
+    "latest_anticipated_cost_cr": 31876,
+    "fixture_status": "TEST_FIXTURE"
+  },
+  {
+    "canonical_project_id": "PRJ-SECI-5000",
+    "canonical_project_name": "Pang Ultra Mega Solar Power Project (5000 MW with BESS)",
+    "implementing_agency": "Solar Energy Corporation of India (SECI)",
+    "sector": "Power & Renewable",
+    "state": "Ladakh",
+    "registered_source_codes": [
+      "SECI/SOLAR/LEH-RE-5000MW"
+    ],
+    "observations_count": 8,
+    "first_observation_month": "2025-08-01",
+    "latest_observation_month": "2026-03-01",
+    "latest_physical_progress": 0,
+    "latest_sanctioned_cost_cr": 20500,
+    "latest_anticipated_cost_cr": 20500,
+    "fixture_status": "TEST_FIXTURE"
+  },
+  {
+    "canonical_project_id": "PRJ-NCRTC-82",
+    "canonical_project_name": "Delhi–Ghaziabad–Meerut Regional Rapid Transit System (82.15 Km)",
+    "implementing_agency": "National Capital Region Transport Corporation (NCRTC)",
+    "sector": "Railways & Metros",
+    "state": "Delhi & Uttar Pradesh",
+    "registered_source_codes": [
+      "MRTS/DEL-MEERUT/RRTS-82K"
+    ],
+    "observations_count": 1,
+    "first_observation_month": "2025-11-01",
+    "latest_observation_month": "2025-11-01",
+    "latest_physical_progress": 115,
+    "latest_sanctioned_cost_cr": 30274,
+    "latest_anticipated_cost_cr": 30274,
+    "fixture_status": "TEST_FIXTURE"
+  }
+]

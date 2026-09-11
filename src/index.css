@@ -872,3 +872,27 @@ body {
     gap: var(--space-md);
   }
 }
+
+/* ==========================================================================
+   EARLY WARNING & RISK MONITOR STYLES (MILESTONE 3)
+   ========================================================================== */
+
+.table-header-provenance {
+  display: block;
+  font-size: 8.5px;
+  font-weight: 500;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  opacity: 0.85;
+  margin-top: 2px;
+  letter-spacing: 0.02em;
+}
+
+.early-warning-view {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0.95; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
+}

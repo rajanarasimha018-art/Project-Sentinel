@@ -1,0 +1,32 @@
+{
+  "contractId": "PAIMANA-CONTRACT-AUG2025-MAR2026-V1",
+  "timestamp": "2026-09-11T06:05:33.413Z",
+  "totalRecordsValidated": 105,
+  "passedCount": 103,
+  "flaggedCount": 2,
+  "criticalErrorsCount": 2,
+  "highSeverityCount": 0,
+  "mediumSeverityCount": 0,
+  "issues": [
+    {
+      "ruleId": "VAL-DATE-003",
+      "ruleName": "Chronological Sequence",
+      "severity": "CRITICAL",
+      "canonicalProjectId": "PRJ-NCRTC-82",
+      "reportMonth": "2025-11-01",
+      "field": "anticipated_completion_date",
+      "observedValue": "2019-03-07 > 2018-05-31",
+      "message": "Source Contradiction: Sanction date (2019-03-07) is after anticipated completion date (2018-05-31)"
+    },
+    {
+      "ruleId": "VAL-RANGE-004",
+      "ruleName": "Numeric Range Validity",
+      "severity": "CRITICAL",
+      "canonicalProjectId": "PRJ-NCRTC-82",
+      "reportMonth": "2025-11-01",
+      "field": "physical_progress_pct",
+      "observedValue": 115,
+      "message": "Physical progress (115%) outside valid bounds [0.0, 100.0]"
+    }
+  ]
+}

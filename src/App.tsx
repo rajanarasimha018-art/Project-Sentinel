@@ -16,25 +16,62 @@ import { NationalProjectMap } from './components/NationalProjectMap';
 import { DataQualityConfidence } from './components/DataQualityConfidence';
 import { ActionPathDrawer } from './components/ActionPathDrawer';
 import { DataArchitectureModal } from './components/DataArchitectureModal';
+import { ProjectIntelligenceView } from './components/project-intelligence/ProjectIntelligenceView';
+import { EarlyWarningView } from './components/early-warning/EarlyWarningView';
+import { InterventionModule } from './components/intervention/InterventionModule';
+import { EvidenceModule } from './components/evidence/EvidenceModule';
 import { CheckCircle } from 'lucide-react';
 
 export const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('cockpit');
-  const [selectedProject, setSelectedProject] = useState<AttentionQueueItem | null>(null);
+  const [selectedProject, setSelectedProject] = useState<AttentionQueueItem>(MOCK_ATTENTION_QUEUE[0]);
+  const [selectedInterventionProjectId, setSelectedInterventionProjectId] = useState<string | null>(null);
+  const [selectedInterventionIssueId, setSelectedInterventionIssueId] = useState<string | null>(null);
+  const [selectedEvidenceId, setSelectedEvidenceId] = useState<string | null>(null);
+  const [selectedEvidenceProjectId, setSelectedEvidenceProjectId] = useState<string | null>(null);
+  const [earlyWarningSubView, setEarlyWarningSubView] = useState<'register' | 'external-conditions'>('register');
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isDataModalOpen, setIsDataModalOpen] = useState<boolean>(false);
   const [actionNotification, setActionNotification] = useState<string | null>(null);
 
   const handleTabSelect = (tab: string) => {
-    if (tab === 'cockpit') {
+    if (tab === 'cockpit' || tab === 'projects' || tab === 'early-warning' || tab === 'intervention' || tab === 'evidence') {
+      if (tab === 'early-warning') setEarlyWarningSubView('register');
       setActiveTab(tab);
     } else {
-      setActionNotification(`Navigation to [${tab.toUpperCase()}] is reserved for subsequent Round 2 milestones. National Cockpit is currently locked.`);
+      setActionNotification(`Navigation to [${tab.toUpperCase()}] is scheduled for subsequent ProjectSentinel rounds. Current active modules: Cockpit, Project Intelligence, Early Warning, Intervention, & Evidence.`);
       setTimeout(() => setActionNotification(null), 4500);
     }
   };
 
+  const handleNavigateToExternalConditions = (projectId?: string) => {
+    if (projectId) {
+      const found = MOCK_ATTENTION_QUEUE.find((p) => p.project.id === projectId);
+      if (found) setSelectedProject(found);
+    }
+    setEarlyWarningSubView('external-conditions');
+    setActiveTab('early-warning');
+  };
+
+  const handleNavigateToIntervention = (projectId?: string, issueId?: string) => {
+    if (projectId) setSelectedInterventionProjectId(projectId);
+    if (issueId) setSelectedInterventionIssueId(issueId);
+    setActiveTab('intervention');
+  };
+
+  const handleNavigateToEvidence = (evidenceId?: string, projectId?: string) => {
+    if (evidenceId) setSelectedEvidenceId(evidenceId);
+    if (projectId) setSelectedEvidenceProjectId(projectId);
+    setActiveTab('evidence');
+  };
+
+  const handleSelectProjectFromCockpit = (item: AttentionQueueItem) => {
+    setSelectedProject(item);
+    setActiveTab('projects');
+  };
+
   const handleActionTriggered = (actionName: string, projectName: string) => {
-    setActionNotification(`[SIMULATED WORKFLOW ACTION]: "${actionName}" initiated for ${projectName}. Session record logged in prototype.`);
+    setActionNotification(`[SIMULATED WORKFLOW ACTION]: "${actionName}" initiated for ${projectName}. Record logged in session audit.`);
     setTimeout(() => setActionNotification(null), 5000);
   };
 
@@ -75,46 +112,105 @@ export const App: React.FC = () => {
         </div>
       )}
 
-      {/* Main Cockpit Content */}
+      {/* Main Content Area */}
       <main className="cockpit-container">
-        {/* 2. Portfolio Summary Strip */}
-        <PortfolioSummary stats={MOCK_PORTFOLIO_SUMMARY} />
-
-        {/* 3. Attention Queue — Primary Operational Area */}
-        <AttentionQueue
-          items={MOCK_ATTENTION_QUEUE}
-          selectedItem={selectedProject}
-          onSelectProject={(item) => setSelectedProject(item)}
-        />
-
-        {/* Mid-Cockpit Grid: Risk Analytics & Spatial Dispersion */}
-        <div className="cockpit-grid-2col">
-          {/* Left Column: Risk Distribution & Risk Trajectory */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-lg)' }}>
-            {/* 4. Risk Distribution */}
-            <RiskDistribution
-              distribution={MOCK_RISK_DISTRIBUTION}
-              loadedCount={MOCK_PORTFOLIO_SUMMARY.loadedProjectsCount}
+        {activeTab === 'projects' ? (
+          /* PROJECT INTELLIGENCE MODULE */
+          <div style={{ marginTop: 'var(--space-lg)' }}>
+            <ProjectIntelligenceView
+              projectItem={selectedProject}
+              allProjects={MOCK_ATTENTION_QUEUE}
+              onSelectProject={(item) => setSelectedProject(item)}
+              onBackToCockpit={() => setActiveTab('cockpit')}
+              onActionTriggered={handleActionTriggered}
+              onOpenIntervention={handleNavigateToIntervention}
+              onOpenEvidence={handleNavigateToEvidence}
+              onOpenExternalConditions={handleNavigateToExternalConditions}
             />
-
-            {/* 5. Multi-Quarter Risk Trend Time-Series */}
-            <RiskTrendChart trends={MOCK_QUARTERLY_TRENDS} />
           </div>
+        ) : activeTab === 'early-warning' ? (
+          /* EARLY WARNING / RISK MONITOR MODULE */
+          <EarlyWarningView
+            allProjects={MOCK_ATTENTION_QUEUE}
+            selectedProject={selectedProject}
+            initialSubView={earlyWarningSubView}
+            onSelectProject={(item) => setSelectedProject(item)}
+            onOpenProjectIntelligence={(item) => {
+              setSelectedProject(item);
+              setActiveTab('projects');
+            }}
+            onOpenIntervention={handleNavigateToIntervention}
+            onOpenEvidence={handleNavigateToEvidence}
+          />
+        ) : activeTab === 'intervention' ? (
+          /* INTERVENTION & ESCALATION MODULE */
+          <InterventionModule
+            initialSelectedProjectId={selectedInterventionProjectId}
+            initialSelectedIssueId={selectedInterventionIssueId}
+            onOpenProjectIntelligence={(projectId) => {
+              const found = MOCK_ATTENTION_QUEUE.find((p) => p.project.id === projectId);
+              if (found) setSelectedProject(found);
+              setActiveTab('projects');
+            }}
+            onNavigateToEarlyWarning={(projectId) => {
+              const found = MOCK_ATTENTION_QUEUE.find((p) => p.project.id === projectId);
+              if (found) setSelectedProject(found);
+              setActiveTab('early-warning');
+            }}
+            onOpenEvidence={handleNavigateToEvidence}
+          />
+        ) : activeTab === 'evidence' ? (
+          /* EVIDENCE & DOCUMENTS MODULE */
+          <EvidenceModule
+            initialSelectedEvidenceId={selectedEvidenceId}
+            initialSelectedProjectId={selectedEvidenceProjectId}
+            onOpenProjectIntelligence={(projectId) => {
+              const found = MOCK_ATTENTION_QUEUE.find((p) => p.project.id === projectId);
+              if (found) setSelectedProject(found);
+              setActiveTab('projects');
+            }}
+            onOpenIntervention={handleNavigateToIntervention}
+          />
+        ) : (
+          /* NATIONAL COCKPIT MODULE */
+          <>
+            {/* Portfolio Summary Strip */}
+            <PortfolioSummary stats={MOCK_PORTFOLIO_SUMMARY} />
 
-          {/* Right Column: 6. National Infrastructure Project Map */}
-          <div>
-            <NationalProjectMap
+            {/* Attention Queue — Primary Operational Area */}
+            <AttentionQueue
               items={MOCK_ATTENTION_QUEUE}
               selectedItem={selectedProject}
-              onSelectProject={(item) => setSelectedProject(item)}
+              onSelectProject={handleSelectProjectFromCockpit}
             />
-          </div>
-        </div>
 
-        {/* Bottom Section: 7. Data Quality & Predictive Model Confidence */}
-        <div style={{ marginTop: 'var(--space-lg)' }}>
-          <DataQualityConfidence summary={MOCK_DATA_QUALITY_SUMMARY} />
-        </div>
+            {/* Mid-Cockpit Grid: Risk Analytics & Spatial Dispersion */}
+            <div className="cockpit-grid-2col">
+              {/* Left Column: Risk Distribution & Risk Trajectory */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-lg)' }}>
+                <RiskDistribution
+                  distribution={MOCK_RISK_DISTRIBUTION}
+                  loadedCount={MOCK_PORTFOLIO_SUMMARY.loadedProjectsCount}
+                />
+                <RiskTrendChart trends={MOCK_QUARTERLY_TRENDS} />
+              </div>
+
+              {/* Right Column: National Infrastructure Project Map */}
+              <div>
+                <NationalProjectMap
+                  items={MOCK_ATTENTION_QUEUE}
+                  selectedItem={selectedProject}
+                  onSelectProject={handleSelectProjectFromCockpit}
+                />
+              </div>
+            </div>
+
+            {/* Bottom Section: Data Quality & Model Validation Status */}
+            <div style={{ marginTop: 'var(--space-lg)' }}>
+              <DataQualityConfidence summary={MOCK_DATA_QUALITY_SUMMARY} />
+            </div>
+          </>
+        )}
 
         {/* Operational Footer */}
         <footer 
@@ -134,7 +230,7 @@ export const App: React.FC = () => {
           <div>
             <strong>ProjectSentinel</strong> — Prototype Infrastructure Risk Intelligence (SIH 2026 Problem Statement <strong>SIH26103</strong>).
             <span style={{ margin: '0 8px' }}>•</span>
-            Dataset: 10 Reference Central Sector Projects
+            Active View: <strong>{activeTab === 'projects' ? 'Project Intelligence' : activeTab === 'early-warning' ? 'Early Warning / Risk Monitor' : activeTab === 'intervention' ? 'Intervention & Escalation' : 'National Cockpit'}</strong>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -150,12 +246,14 @@ export const App: React.FC = () => {
         </footer>
       </main>
 
-      {/* 8. Action Path Drawer (Slide-over Inspector for selected project) */}
-      <ActionPathDrawer
-        item={selectedProject}
-        onClose={() => setSelectedProject(null)}
-        onActionTriggered={handleActionTriggered}
-      />
+      {/* Quick Action Path Drawer (Optional quick inspector when on Cockpit) */}
+      {isDrawerOpen && (
+        <ActionPathDrawer
+          item={selectedProject}
+          onClose={() => setIsDrawerOpen(false)}
+          onActionTriggered={handleActionTriggered}
+        />
+      )}
 
       {/* Data Architecture & Boundary Specification Modal */}
       <DataArchitectureModal

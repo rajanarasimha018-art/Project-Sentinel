@@ -229,17 +229,20 @@ export const ActionPathDrawer: React.FC<ActionPathDrawerProps> = ({
                   {actionGuidance.criticalPathMilestone}
                 </div>
                 <div style={{ fontSize: '11px', color: '#1e40af', marginTop: '4px' }}>
-                  Estimated Delay Exposure: <strong className="mono-num">+{actionGuidance.projectedStallDays} days</strong> if unaddressed
+                  Illustrative scenario: <strong className="mono-num">+{actionGuidance.projectedStallDays} days</strong> if the identified bottleneck persists
                 </div>
               </div>
 
               <div style={{ marginTop: '10px', fontSize: '12px', color: 'var(--text-secondary)' }}>
-                <strong>Recommended Operational Decision:</strong>
+                <strong>Decision Support — For Officer Review:</strong>
                 <p style={{ marginTop: '3px', lineHeight: 1.45 }}>{actionGuidance.recommendedDecision}</p>
+                <p style={{ marginTop: '4px', fontSize: '11px', color: 'var(--text-muted)', fontStyle: 'italic' }}>
+                  Final action remains with the competent authority.
+                </p>
               </div>
 
               <div style={{ marginTop: '8px', fontSize: '11px', color: 'var(--text-muted)' }}>
-                <strong>Statutory Procedure: </strong>
+                <strong>Statutory / Contractual Check: </strong>
                 <span>{actionGuidance.statutoryNextStep}</span>
               </div>
             </div>
